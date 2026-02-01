@@ -1,5 +1,9 @@
 module.exports = {
-  arrowParens: 'avoid',
-  singleQuote: true,
-  trailingComma: 'all',
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "useTabs": true,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "arrowParens": "avoid"
 };

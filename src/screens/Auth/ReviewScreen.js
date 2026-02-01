@@ -5,27 +5,28 @@ import { Button } from '../../components/Button';
 import { GradientView } from '../../components/GradientView';
 import { Steppers } from '../../components/Steppers';
 
-function ServiceScreen() {
+function ReviewScreen() {
 	const navigation = useNavigation();
 	return (
 		<GradientView>
 			<View style={styles.container}>
 				<View style={styles.box}>
 					<Image
-						source={require('../../assets/images/service.png')}
+						source={require('../../assets/images/review.png')}
 						style={styles.image}
 					/>
 					<View style={styles.center}>
-						<Text style={styles.text}>Plan your tasks to do, that</Text>
-						<Text style={styles.text}>way you’ll stay organized</Text>
-						<Text style={styles.text}>and you won’t skip any</Text>
+						<Text style={styles.text}>Make a full schedule for</Text>
+						<Text style={styles.text}>the whole week and stay</Text>
+						<Text style={styles.text}>organized and productive</Text>
+						<Text style={styles.text}>all days</Text>
 					</View>
 				</View>
 				<View style={styles.footer}>
-					<Steppers activeIndex={0} />
+					<Steppers activeIndex={2} />
 					<Button
 						variant='next'
-						onClick={() => navigation.navigate('Detail')}
+						onClick={() => navigation.navigate('Confirm')}
 					/>
 				</View>
 			</View>
@@ -39,9 +40,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	box: {
-		marginTop: 55,
+		marginTop: 92,
 		alignItems: 'center',
-		rowGap: 65,
+		rowGap: 97,
 	},
 	center: {
 		alignItems: 'center',
@@ -65,4 +66,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ServiceScreen;
+export default ReviewScreen;

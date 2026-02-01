@@ -1,47 +1,46 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '../../components/Button';
-import { GradientView } from '../../components/GradientView';
-import { Steppers } from '../../components/Steppers';
+import { Button } from '../../components/Button'
+import { GradientView } from '../../components/GradientView'
+import { Steppers } from '../../components/Steppers'
 
-function ServiceScreen() {
-	const navigation = useNavigation();
+function ConfirmScreen ()  {
+	const navigation = useNavigation()
 	return (
 		<GradientView>
 			<View style={styles.container}>
 				<View style={styles.box}>
 					<Image
-						source={require('../../assets/images/service.png')}
+						source={require('../../assets/images/confirm.png')}
 						style={styles.image}
 					/>
 					<View style={styles.center}>
-						<Text style={styles.text}>Plan your tasks to do, that</Text>
-						<Text style={styles.text}>way you’ll stay organized</Text>
-						<Text style={styles.text}>and you won’t skip any</Text>
+						<Text style={styles.text}>You informations are </Text>
+						<Text style={styles.text}>secure with us</Text>
 					</View>
 				</View>
 				<View style={styles.footer}>
-					<Steppers activeIndex={0} />
+					<Steppers activeIndex={3} />
 					<Button
-						variant='next'
-						onClick={() => navigation.navigate('Detail')}
+						variant='done'
+						onClick={() => navigation.navigate('SingIn')}
 					/>
 				</View>
 			</View>
 		</GradientView>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
-	container: {
+  container: {
 		flex: 1,
 		justifyContent: 'space-between',
 	},
 	box: {
-		marginTop: 55,
+		marginTop: 74,
 		alignItems: 'center',
-		rowGap: 65,
+		rowGap: 79,
 	},
 	center: {
 		alignItems: 'center',
@@ -63,6 +62,6 @@ const styles = StyleSheet.create({
 		columnGap: 56,
 		marginRight: 34,
 	},
-});
+})
 
-export default ServiceScreen;
+export default ConfirmScreen
