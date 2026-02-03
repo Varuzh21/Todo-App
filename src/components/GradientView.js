@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 export function GradientView(props) {
 	return (
@@ -11,11 +11,11 @@ export function GradientView(props) {
 		>
 			{props.children}
 		</LinearGradient>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-	  flex: 1	
-	}
-})
+		flex: 1,
+	},
+});
