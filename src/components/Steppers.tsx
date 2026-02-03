@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-export function Steppers({ activeIndex }) {
+export function Steppers({ activeIndex }: { activeIndex: number }) {
 	return (
 		<View style={styles.container}>
 			{[0, 1, 2, 3].map((_, index) => (

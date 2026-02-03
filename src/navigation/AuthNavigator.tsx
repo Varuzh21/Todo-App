@@ -2,10 +2,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ConfirmScreen from '../screens/Auth/ConfirmScreen';
 import DetailScreen from '../screens/Auth/DetailScreen';
 import ReviewScreen from '../screens/Auth/ReviewScreen';
-import ServiceScreen from '../screens/Auth/ServiceScreen';
-import SignInScreen from '../screens/Auth/SignInScreen';
+import ServiceScreen from '../screens/Auth/ServiceScreen.tsx';
+import SignInScreen from '../screens/Auth/SignInScreen.tsx';
 
-const Stack = createNativeStackNavigator();
+export interface AuthStackParamList {
+	Service: undefined;
+	Detail: undefined;
+	Review: undefined;
+	Confirm: undefined;
+	SignIn: undefined;
+	[key: string]: undefined;
+}
+
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 function AuthNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -1,18 +1,22 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native';
+
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../../navigation/AuthNavigator';
 
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '../../components/Button'
-import { GradientView } from '../../components/GradientView'
-import { Steppers } from '../../components/Steppers'
+import { Button } from '../../components/Button';
+import { GradientView } from '../../components/GradientView';
+import { Steppers } from '../../components/Steppers';
 
-function DetailScreen() {
-	const navigation = useNavigation();
+function ReviewScreen() {
+	const navigation =
+		useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 	return (
 		<GradientView>
 			<View style={styles.container}>
 				<View style={styles.box}>
 					<Image
-						source={require('../../assets/images/detail.png')}
+						source={require('../../assets/images/review.png')}
 						style={styles.image}
 					/>
 					<View style={styles.center}>
@@ -23,10 +27,10 @@ function DetailScreen() {
 					</View>
 				</View>
 				<View style={styles.footer}>
-					<Steppers activeIndex={1} />
+					<Steppers activeIndex={2} />
 					<Button
 						variant='next'
-						onClick={() => navigation.navigate('Review')}
+						onClick={() => navigation.navigate('Confirm')}
 					/>
 				</View>
 			</View>
@@ -40,9 +44,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	box: {
-		marginTop: 60,
+		marginTop: 92,
 		alignItems: 'center',
-		rowGap: 60,
+		rowGap: 97,
 	},
 	center: {
 		alignItems: 'center',
@@ -66,4 +70,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DetailScreen;
+export default ReviewScreen;

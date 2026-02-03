@@ -1,7 +1,7 @@
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppNavigation } from './navigation/AppNavigation';
-import { GradientView } from './components/GradientView';
+import { AppNavigation } from './navigation/AppNavigation.tsx';
+import { GradientView } from './components/GradientView.tsx';
 
 function App() {
 	return (

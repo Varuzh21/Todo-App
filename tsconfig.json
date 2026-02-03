@@ -1,8 +1,12 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "types": ["jest"],
-  },
-  "include": ["**/*.ts", "**/*.tsx", "src/App.js"],
+		"types": ["jest"],
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"skipLibCheck": true
+	},
+  "include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App"],
   "exclude": ["**/node_modules", "**/Pods"]
 }

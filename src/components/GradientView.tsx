@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-export function GradientView(props) {
+export function GradientView({ children }: { children: ReactNode }) {
 	return (
 		<LinearGradient
 			colors={['#1253aa', '#05243e']}
@@ -9,7 +10,7 @@ export function GradientView(props) {
 			end={{ x: 0.5, y: 1 }}
 			style={styles.container}
 		>
-			{props.children}
+			{children}
 		</LinearGradient>
 	);
 }

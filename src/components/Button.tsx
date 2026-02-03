@@ -1,4 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ReactNode } from 'react';
+import {
+	StyleProp,
+	StyleSheet,
+	Text,
+	TextStyle,
+	TouchableOpacity,
+	ViewStyle,
+} from 'react-native';
 
 import Add from '../assets/icons/add.svg';
 import Apple from '../assets/icons/apple.svg';
@@ -6,8 +14,29 @@ import Done from '../assets/icons/done.svg';
 import Google from '../assets/icons/google.svg';
 import Next from '../assets/icons/next.svg';
 
-export function Button({ variant, title, onClick }) {
-	const variants = {
+type ButtonVariant =
+	| 'next'
+	| 'done'
+	| 'button'
+	| 'apple'
+	| 'google'
+	| 'add'
+	| 'cancel';
+
+type VariantConfig = {
+	style: StyleProp<ViewStyle>;
+	icon?: ReactNode;
+	text?: StyleProp<TextStyle>;
+};
+
+interface ButtonProps {
+	variant: ButtonVariant;
+	title?: string;
+	onClick?: () => void;
+}
+
+export function Button({ variant, title, onClick }: ButtonProps) {
+	const variants: Record<ButtonVariant, VariantConfig> = {
 		next: {
 			style: styles.next,
 			icon: <Next />,
@@ -34,17 +63,14 @@ export function Button({ variant, title, onClick }) {
 		},
 		cancel: {
 			style: styles.cancel,
-			text: styles.cancelText
+			text: styles.cancelText,
 		},
 	};
 
 	const isVariant = variants[variant];
 
 	return (
-		<TouchableOpacity 
-			style={isVariant.style}
-			onPress={onClick}
-		>
+		<TouchableOpacity style={isVariant.style} onPress={onClick}>
 			{isVariant.icon ? (
 				isVariant.icon
 			) : (
@@ -102,11 +128,11 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		borderColor: '#0EA5E9',
 		borderRadius: 10,
-		paddingVertical: 13
+		paddingVertical: 13,
 	},
 	cancelText: {
 		fontFamily: 'Medium',
 		fontSize: 16,
 		color: '#05243E',
-	}
+	},
 });

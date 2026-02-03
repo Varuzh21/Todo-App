@@ -33,7 +33,6 @@ function SignInScreen() {
 							<Input 
 								placeholder='Password'
 								secureTextEntry
-								type='undefined'
 							/>
 						</View>
 

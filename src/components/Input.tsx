@@ -1,9 +1,16 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet, TextInput, View } from 'react-native';
 
 import Email from '../assets/icons/email.svg';
 import Password from '../assets/icons/password.svg';
 
-export function Input({ placeholder, value, type, secureTextEntry }) {
+interface InputProps {
+	placeholder: string;
+	value?: string;
+	type?: KeyboardTypeOptions;
+	secureTextEntry?: boolean;
+}
+
+export function Input({ placeholder, value, type, secureTextEntry }: InputProps) {
 	return (
 		<View style={styles.container}>
 			{secureTextEntry ? (
