@@ -1,12 +1,30 @@
+import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Button } from '../../components/Button';
-import { GradientView } from '../../components/GradientView';
-import { Input } from '../../components/Input';
+import { useAuth } from '@/contexts/AuthStore';
 
-import Logo from '../../assets/icons/logo.svg';
+import { Button } from '@/components/Button';
+import { GradientView } from '@/components/GradientView';
+import { Input } from '@/components/Input';
+
+import Logo from '@/assets/icons/logo.svg';
 
 function SignInScreen() {
+	const [form, setForm] = useState({
+		username: '',
+		password: '',
+	});
+
+	const { signIn } = useAuth();
+
+	const handleSubmit = useCallback(async () => {
+		try {
+			await signIn(form);
+		} catch (e) {
+			throw new Error(`error ${e}`)
+		}
+	}, [form]);
+
 	return (
 		<GradientView>
 			<View style={styles.container}>
@@ -26,13 +44,15 @@ function SignInScreen() {
 
 					<View style={styles.form}>
 						<View style={styles.inputGroup}>
-							<Input 
+							<Input
 								placeholder='E-mail'
 								type='email-address'
+								onChange={text => setForm({ ...form, username: text })}
 							/>
-							<Input 
+							<Input
 								placeholder='Password'
 								secureTextEntry
+								onChange={text => setForm({ ...form, password: text })}
 							/>
 						</View>
 
@@ -42,7 +62,11 @@ function SignInScreen() {
 							</View>
 
 							<View style={styles.actions}>
-								<Button variant='button' title='sign in' />
+								<Button
+									variant='button'
+									title='sign in'
+									onClick={handleSubmit}
+								/>
 
 								<View style={styles.signupRow}>
 									<Text style={styles.signupText}>Don’t have an account?</Text>

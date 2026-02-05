@@ -1,12 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { AuthStackParamList } from '@/navigation/AuthNavigator';
 
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '../../components/Button'
-import { GradientView } from '../../components/GradientView'
-import { Steppers } from '../../components/Steppers'
+import { Button } from '@/components/Button'
+import { GradientView } from '@/components/GradientView'
+import { Steppers } from '@/components/Steppers'
 
 function DetailScreen() {
 	const navigation =

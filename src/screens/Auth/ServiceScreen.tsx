@@ -1,12 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { AuthStackParamList } from '@/navigation/AuthNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../navigation/AuthNavigator';
 
+import { Button } from '@/components/Button';
+import { GradientView } from '@/components/GradientView';
+import { Steppers } from '@/components/Steppers';
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '../../components/Button';
-import { GradientView } from '../../components/GradientView';
-import { Steppers } from '../../components/Steppers';
 
 function ServiceScreen() {
 	const navigation =

@@ -1,12 +1,15 @@
 {
-  "extends": "@react-native/typescript-config",
-  "compilerOptions": {
-		"types": ["jest"],
-		"strict": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"skipLibCheck": true
+	"extends": "@react-native/typescript-config",
+	"compilerOptions": {
+		"ignoreDeprecations": "6.0",
+		"baseUrl": ".",
+		"types": ["node"],
+		"paths": {
+			"@/*": ["src/*"],
+			"tests": ["tests/*"],
+			"@components/*": ["src/components/*"]
+		}
 	},
-  "include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App"],
-  "exclude": ["**/node_modules", "**/Pods"]
+	"include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App", "index.ts"],
+	"exclude": ["**/node_modules", "**/Pods"]
 }

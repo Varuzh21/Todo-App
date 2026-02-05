@@ -8,11 +8,11 @@ import {
 	ViewStyle,
 } from 'react-native';
 
-import Add from '../assets/icons/add.svg';
-import Apple from '../assets/icons/apple.svg';
-import Done from '../assets/icons/done.svg';
-import Google from '../assets/icons/google.svg';
-import Next from '../assets/icons/next.svg';
+import Add from '@/assets/icons/add.svg';
+import Apple from '@/assets/icons/apple.svg';
+import Done from '@/assets/icons/done.svg';
+import Google from '@/assets/icons/google.svg';
+import Next from '@/assets/icons/next.svg';
 
 type ButtonVariant =
 	| 'next'

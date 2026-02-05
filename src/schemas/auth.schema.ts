@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-const AuthSchema = z.object({
+export const LoginSchema = z.object({
 	username: z
 		.string()
 		.nonempty('Username is required')
@@ -13,4 +13,4 @@ const AuthSchema = z.object({
 		.min(9, { message: 'Password must be at least 9 characters' }),
 });
 
-export default AuthSchema;
+export type LoginInput = z.infer<typeof LoginSchema>;
