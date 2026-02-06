@@ -10,6 +10,6 @@
 			"@components/*": ["src/components/*"]
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App", "index.ts"],
+	"include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App", "index.ts", "react-native.config.js"],
 	"exclude": ["**/node_modules", "**/Pods"]
 }

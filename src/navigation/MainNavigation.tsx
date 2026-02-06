@@ -1,10 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeNavigation from './HomeNavigation';
+import { View } from 'react-native';
 
-import Home from '@/assets/icons/home.svg';
+import HomeNavigation from './HomeNavigation';
+import TaskNavigation from './TaskNavigation';
+
 import Calendar from '@/assets/icons/calendar.svg';
+import Home from '@/assets/icons/home.svg';
 import Settings from '@/assets/icons/settings.svg';
 import TodoList from '@/assets/icons/todo-list.svg';
+import CalendarNavigation from './CalendarNavigation';
+import SettingsNavigation from './SettingsNavigation';
 
 const Tab = createBottomTabNavigator();
 function MainNavigation() {
@@ -16,15 +21,15 @@ function MainNavigation() {
 				tabBarActiveTintColor: '#63F5EF',
 				tabBarInactiveTintColor: '#FFFFFF',
 				tabBarStyle: {
-					borderTopWidth: 0,
+					borderTopWidth: 1,
 					position: 'absolute',
-					marginBottom: 25,
-					flexDirection: 'row',
+					bottom: 30,
 					alignItems: 'center',
-					gap: 70,
 					paddingInline: 32,
+					paddingTop: 20,
 					backgroundColor: 'transparent',
 					elevation: 0,
+					height: 45,
 				},
 			}}
 		>
@@ -34,36 +39,114 @@ function MainNavigation() {
 				options={{
 					headerShown: false,
 					tabBarShowLabel: false,
-					tabBarIcon: ({ color }) => (
-						<Home width={33} height={30} fill={color} />
+					tabBarIcon: ({ focused, color }) => (
+						<View
+							style={{
+								alignItems: 'center',
+								gap: 6.5,
+								justifyContent: 'center',
+							}}
+						>
+							<Home width={33} height={30} fill={color} />
+							{focused && (
+								<View
+									style={{
+										width: 12,
+										height: 3,
+										backgroundColor: '#fff',
+										borderRadius: 100,
+									}}
+								/>
+							)}
+						</View>
 					),
 				}}
 			/>
 			<Tab.Screen
-				name='test1'
-				component={HomeNavigation}
+				name='TaskNavigation'
+				component={TaskNavigation}
 				options={{
 					headerShown: false,
 					tabBarShowLabel: false,
-					tabBarIcon: ({ color }) => <TodoList fill={color} />,
+					tabBarIcon: ({ focused, color }) => (
+						<View
+							style={{
+								alignItems: 'center',
+								gap: 6.5,
+								justifyContent: 'center',
+							}}
+						>
+							<TodoList width={33} height={30} fill={color} />
+							{focused && (
+								<View
+									style={{
+										width: 12,
+										height: 3,
+										backgroundColor: '#fff',
+										borderRadius: 100,
+									}}
+								/>
+							)}
+						</View>
+					),
 				}}
 			/>
 			<Tab.Screen
-				name='test2'
-				component={HomeNavigation}
+				name='CalendarNavigation'
+				component={CalendarNavigation}
 				options={{
 					headerShown: false,
 					tabBarShowLabel: false,
-					tabBarIcon: ({ color }) => <Calendar fill={color} />,
+					tabBarIcon: ({ focused, color }) => (
+						<View
+							style={{
+								alignItems: 'center',
+								gap: 6.5,
+								justifyContent: 'center',
+							}}
+						>
+							<Calendar width={33} height={30} fill={color} />
+							{focused && (
+								<View
+									style={{
+										width: 12,
+										height: 3,
+										backgroundColor: '#fff',
+										borderRadius: 100,
+									}}
+								/>
+							)}
+						</View>
+					),
 				}}
 			/>
 			<Tab.Screen
-				name='test3'
-				component={HomeNavigation}
+				name='SettingsNavigation'
+				component={SettingsNavigation}
 				options={{
 					headerShown: false,
 					tabBarShowLabel: false,
-					tabBarIcon: ({ color }) => <Settings fill={color} />,
+					tabBarIcon: ({ focused, color }) => (
+						<View
+							style={{
+								alignItems: 'center',
+								gap: 6.5,
+								justifyContent: 'center',
+							}}
+						>
+							<Settings width={33} height={30} fill={color} />
+							{focused && (
+								<View
+									style={{
+										width: 12,
+										height: 3,
+										backgroundColor: '#fff',
+										borderRadius: 100,
+									}}
+								/>
+							)}
+						</View>
+					),
 				}}
 			/>
 		</Tab.Navigator>
