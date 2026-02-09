@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import {
+	ActivityIndicator,
 	StyleProp,
 	StyleSheet,
 	Text,
@@ -33,9 +34,10 @@ interface ButtonProps {
 	variant: ButtonVariant;
 	title?: string;
 	onClick?: () => void;
+	isLoading?: boolean;
 }
 
-export function Button({ variant, title, onClick }: ButtonProps) {
+export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 	const variants: Record<ButtonVariant, VariantConfig> = {
 		next: {
 			style: styles.next,
@@ -70,11 +72,21 @@ export function Button({ variant, title, onClick }: ButtonProps) {
 	const isVariant = variants[variant];
 
 	return (
-		<TouchableOpacity style={isVariant.style} onPress={onClick}>
-			{isVariant.icon ? (
-				isVariant.icon
+		<TouchableOpacity
+			style={isVariant.style}
+			onPress={onClick}
+			disabled={isLoading}
+		>
+			{isLoading ? (
+				<ActivityIndicator size='small' color='white' />
 			) : (
-				<Text style={isVariant.text}>{title}</Text>
+				<>
+					{isVariant.icon ? (
+						isVariant.icon
+					) : (
+						<Text style={isVariant.text}>{title}</Text>
+					)}
+				</>
 			)}
 		</TouchableOpacity>
 	);
@@ -97,6 +109,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 		backgroundColor: '#0EA5E9',
 		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	text: {
 		fontFamily: 'Medium',

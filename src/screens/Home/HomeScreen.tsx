@@ -1,8 +1,10 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { useAuth } from '@/contexts/AuthStore';
+import { useAuth } from '@/hooks/useAuth';
 
 import { GradientView } from '@/components/GradientView';
+import { Slider } from '@/components/Slider';
+import { TaskItem } from '@/components/TaskItem';
 import { Wrapper } from '@/components/Wrapper';
 
 import Notification from '@/assets/icons/notification.svg';
@@ -27,7 +29,7 @@ function HomeScreen() {
 						<Notification width={30} height={30} fill='#fff' />
 					</View>
 				</Wrapper>
-				<View style={styles.section}>
+				<View style={[styles.section, { marginLeft: 18 }]}>
 					<Text
 						style={[
 							styles.sectionTitle,
@@ -37,9 +39,45 @@ function HomeScreen() {
 						Group tasks
 					</Text>
 					<View>
-						
+						<Slider />
 					</View>
 				</View>
+				<Wrapper>
+					<View style={[styles.section, { marginTop: 19 }]}>
+						<Text style={styles.sectionTitle}>Incomplete Tasks</Text>
+						<View style={styles.listContainer}>
+							<TaskItem
+								title='Client meeting'
+								subTitle='Tomorrow | 10:30pm'
+								onClick={() => {}}
+								isCompleted={false}
+							/>
+							<TaskItem
+								title='Client meeting'
+								subTitle='Tomorrow | 10:30pm'
+								onClick={() => {}}
+								isCompleted={false}
+							/>
+						</View>
+					</View>
+					<View style={[styles.section, { marginTop: 12, rowGap: 19 }]}>
+						<Text style={styles.sectionTitle}>Completed Tasks</Text>
+						<View style={styles.listContainer}>
+							<TaskItem
+								title='Client meeting'
+								subTitle='Tomorrow | 10:30pm'
+								onClick={() => {}}
+								isCompleted
+							/>
+							<TaskItem
+								title='Client meeting'
+								subTitle='Tomorrow | 10:30pm'
+								onClick={() => {}}
+								isCompleted
+							/>
+						</View>
+					</View>
+				</Wrapper>
 			</View>
 		</GradientView>
 	);
@@ -81,14 +119,17 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		flexDirection: 'column',
-		gap: 13,
+		rowGap: 13,
 		marginTop: 15,
-		marginLeft: 18,
 	},
 	sectionTitle: {
 		fontFamily: 'Medium',
 		fontSize: 14,
 		color: '#fff',
+	},
+	listContainer: {
+		flexDirection: 'column',
+		gap: 15,
 	},
 });
 

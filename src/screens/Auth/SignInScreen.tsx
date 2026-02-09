@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { useAuth } from '@/contexts/AuthStore';
+import { useAuth } from '@/hooks/useAuth';
 
 import { Button } from '@/components/Button';
 import { GradientView } from '@/components/GradientView';
@@ -15,7 +15,7 @@ function SignInScreen() {
 		password: '',
 	});
 
-	const { signIn } = useAuth();
+	const { signIn, isLoading } = useAuth();
 
 	const handleSubmit = useCallback(async () => {
 		try {
@@ -66,6 +66,7 @@ function SignInScreen() {
 									variant='button'
 									title='sign in'
 									onClick={handleSubmit}
+									isLoading={isLoading}
 								/>
 
 								<View style={styles.signupRow}>

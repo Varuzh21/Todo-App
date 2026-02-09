@@ -4,11 +4,11 @@ import {
 	createContext,
 	ReactNode,
 	useCallback,
-	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from 'react';
-import { LoginInput, LoginSchema } from '../schemas/auth.schema';
+import { LoginInput, LoginSchema } from '@/schemas/auth.schema';
 
 interface User {
 	username: string;
@@ -26,7 +26,7 @@ interface AuthStoreProps {
 	signOut: () => void;
 }
 
-const AuthStore = createContext<AuthStoreProps>({
+export const AuthStore = createContext<AuthStoreProps>({
 	signIn: async () => {},
 	userToken: null,
 	isLoading: true,
@@ -41,12 +41,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		(() => {
+			setIsLoading(true);
 			try {
 				const token = storage.getString('token');
 				if (token) {
 					setUserToken(token);
 					getUser();
 				}
+				setIsLoading(false);
 			} catch (e) {
 				console.log(`error ${e}`);
 				setIsLoading(false);
@@ -72,6 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	const signIn = useCallback(async (form: LoginInput) => {
+		setIsLoading(true);
 		try {
 			const validateFrom = LoginSchema.parse(form);
 
@@ -82,17 +85,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 			await getUser();
 
+			setIsLoading(false);
 			return data;
 		} catch (e) {
+			setIsLoading(false);
 			throw new Error(`error ${e}`);
 		}
 	}, []);
 
+	const value = useMemo(
+		() => ({
+			userToken,
+			isLoading,
+			user,
+			getUser,
+			signIn,
+			signOut,
+		}),
+		[userToken, isLoading, user, getUser, signIn, signOut],
+	);
+
 	return (
-		<AuthStore.Provider value={{ signIn, userToken, isLoading, user, signOut }}>
+		<AuthStore.Provider value={value}>
 			{children}
 		</AuthStore.Provider>
 	);
 }
-
-export const useAuth = () => useContext(AuthStore);
