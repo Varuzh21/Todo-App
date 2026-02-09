@@ -7,13 +7,17 @@ import MainNavigation from './MainNavigation.tsx';
 function NavigationRouter() {
 	const { userToken, isLoading } = useAuth();
 
-	console.log(isLoading, 'aaaaaaaaa')
-
-	// if (isLoading) {
-	// 	<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-	// 		<ActivityIndicator size='large' color='#000' />
-	// 	</View>;
-	// }
+	if (isLoading) {
+		<View
+			style={{
+				flex: 1,
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<ActivityIndicator size='large' color='#000' />
+		</View>;
+	}
 
 	return (
 		<NavigationContainer>
