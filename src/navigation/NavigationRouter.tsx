@@ -1,8 +1,8 @@
-import { useAuth } from '@/hooks/useAuth';
-import { NavigationContainer } from '@react-navigation/native';
-import { ActivityIndicator, View } from 'react-native';
-import AuthNavigator from './AuthNavigator.tsx';
-import MainNavigation from './MainNavigation.tsx';
+import { useAuth } from '@/hooks/useAuth'
+import { NavigationContainer } from '@react-navigation/native'
+import AuthNavigator from './AuthNavigator.tsx'
+import MainNavigation from './MainNavigation.tsx'
+import { ActivityIndicator, View } from 'react-native'
 
 function NavigationRouter() {
 	const { userToken, isLoading } = useAuth();

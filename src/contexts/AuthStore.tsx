@@ -1,4 +1,4 @@
-import Auth from '@/services/auth';
+import { LoginInput, LoginSchema } from '@/schemas/auth.schema';
 import { storage } from '@/services/storage';
 import {
 	createContext,
@@ -8,9 +8,10 @@ import {
 	useMemo,
 	useState,
 } from 'react';
-import { LoginInput, LoginSchema } from '@/schemas/auth.schema';
+import Api from '@/services/auth';
 
 interface User {
+	id: number;
 	username: string;
 	email: string;
 	firstName: string;
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const getUser = useCallback(async () => {
 		try {
-			const { data } = await Auth.getUser();
+			const { data } = await Api.getUser();
 
 			setUser(data);
 		} catch (e) {
@@ -78,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		try {
 			const validateFrom = LoginSchema.parse(form);
 
-			const { data } = await Auth.login(validateFrom);
+			const { data } = await Api.login(validateFrom);
 
 			storage.set('token', data.accessToken);
 			setUserToken(data.accessToken);

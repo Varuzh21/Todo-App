@@ -7,6 +7,7 @@ export function Wrapper({ children }: { children: Readonly<ReactNode> }) {
 
 const styles = StyleSheet.create({
 	container: {
-		marginHorizontal: 18,
+		flex: 1,           
+    paddingHorizontal: 18,
 	},
 });

@@ -6,7 +6,7 @@ import Success from '@/assets/icons/success.svg';
 interface TaskItemProps {
 	title: string;
 	subTitle: string;
-	isCompleted: boolean;
+	isCompleted?: boolean;
 	onClick: () => void;
 }
 

@@ -21,7 +21,7 @@ function SignInScreen() {
 		try {
 			await signIn(form);
 		} catch (e) {
-			throw new Error(`error ${e}`)
+			throw new Error(`error ${e}`);
 		}
 	}, [form]);
 
@@ -45,11 +45,13 @@ function SignInScreen() {
 					<View style={styles.form}>
 						<View style={styles.inputGroup}>
 							<Input
+								variant='email'
 								placeholder='E-mail'
 								type='email-address'
 								onChange={text => setForm({ ...form, username: text })}
 							/>
 							<Input
+								variant='password'
 								placeholder='Password'
 								secureTextEntry
 								onChange={text => setForm({ ...form, password: text })}

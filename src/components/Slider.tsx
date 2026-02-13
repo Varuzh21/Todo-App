@@ -80,12 +80,13 @@ const styles = StyleSheet.create({
 	imageContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingLeft: 10,
+		justifyContent: 'flex-start',
+		paddingLeft: 5,
 	},
 	image: {
 		width: 25,
 		height: 25,
 		borderRadius: 50,
-		marginLeft: -10,
+		marginLeft: -5,
 	},
 });

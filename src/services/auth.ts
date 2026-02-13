@@ -5,8 +5,8 @@ class Auth {
 		return api.post('auth/login', form);
 	}
 
-	static getUser () {
-		return api.get('auth/me')
+	static getUser() {
+		return api.get('auth/me');
 	}
 }
 

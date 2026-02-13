@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import HomeNavigation from './HomeNavigation';
 import TaskNavigation from './TaskNavigation';
 
-import Calendar from '@/assets/icons/calendar.svg';
 import Home from '@/assets/icons/home.svg';
+import Calendar from '@/assets/icons/calendar.svg';
 import Settings from '@/assets/icons/settings.svg';
 import TodoList from '@/assets/icons/todo-list.svg';
 import CalendarNavigation from './CalendarNavigation';
@@ -17,19 +17,19 @@ function MainNavigation() {
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
+				tabBarHideOnKeyboard: true,
 				tabBarShowLabel: false,
 				tabBarActiveTintColor: '#63F5EF',
 				tabBarInactiveTintColor: '#FFFFFF',
 				tabBarStyle: {
 					borderTopWidth: 1,
-					position: 'absolute',
-					bottom: 30,
 					alignItems: 'center',
-					paddingInline: 32,
-					paddingTop: 20,
+					columnGap: 70,
+					paddingBlock: 20,
 					backgroundColor: 'transparent',
 					elevation: 0,
-					height: 45,
+					height: 80,
+					paddingTop: 20
 				},
 			}}
 		>
@@ -48,16 +48,14 @@ function MainNavigation() {
 							}}
 						>
 							<Home width={33} height={30} fill={color} />
-							{focused && (
 								<View
 									style={{
 										width: 12,
 										height: 3,
-										backgroundColor: '#fff',
+										backgroundColor: focused ? '#fff' : undefined,
 										borderRadius: 100,
 									}}
 								/>
-							)}
 						</View>
 					),
 				}}
@@ -77,16 +75,14 @@ function MainNavigation() {
 							}}
 						>
 							<TodoList width={33} height={30} fill={color} />
-							{focused && (
 								<View
 									style={{
 										width: 12,
 										height: 3,
-										backgroundColor: '#fff',
+										backgroundColor: focused ? '#fff' : undefined,
 										borderRadius: 100,
 									}}
 								/>
-							)}
 						</View>
 					),
 				}}
@@ -106,16 +102,14 @@ function MainNavigation() {
 							}}
 						>
 							<Calendar width={33} height={30} fill={color} />
-							{focused && (
 								<View
 									style={{
 										width: 12,
 										height: 3,
-										backgroundColor: '#fff',
+										backgroundColor: focused ? '#fff' : undefined,
 										borderRadius: 100,
 									}}
 								/>
-							)}
 						</View>
 					),
 				}}
@@ -135,16 +129,14 @@ function MainNavigation() {
 							}}
 						>
 							<Settings width={33} height={30} fill={color} />
-							{focused && (
 								<View
 									style={{
 										width: 12,
 										height: 3,
-										backgroundColor: '#fff',
+										backgroundColor: focused ? '#fff' : undefined,
 										borderRadius: 100,
 									}}
 								/>
-							)}
 						</View>
 					),
 				}}

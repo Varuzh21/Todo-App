@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { useAuth } from '@/hooks/useAuth';
+import { useTodo } from '@/hooks/useTodo';
 
 import { GradientView } from '@/components/GradientView';
 import { Slider } from '@/components/Slider';
@@ -12,23 +13,23 @@ import Notification from '@/assets/icons/notification.svg';
 function HomeScreen() {
 	const { user } = useAuth();
 
+	const { todos } = useTodo();
+
 	return (
 		<GradientView>
 			<View style={styles.container}>
-				<Wrapper>
-					<View style={styles.header}>
-						<View style={styles.userInfo}>
-							<Image source={{ uri: user?.image }} style={styles.userAvatar} />
-							<View style={styles.userTextContainer}>
-								<Text style={styles.username}>
-									{user?.firstName} {user?.lastName}
-								</Text>
-								<Text style={styles.userEmail}>{user?.email}</Text>
-							</View>
+				<View style={styles.header}>
+					<View style={styles.userInfo}>
+						<Image source={{ uri: user?.image }} style={styles.userAvatar} />
+						<View style={styles.userTextContainer}>
+							<Text style={styles.username}>
+								{user?.firstName} {user?.lastName}
+							</Text>
+							<Text style={styles.userEmail}>{user?.email}</Text>
 						</View>
-						<Notification width={30} height={30} fill='#fff' />
 					</View>
-				</Wrapper>
+					<Notification width={30} height={30} fill='#fff' />
+				</View>
 				<View style={[styles.section, { marginLeft: 18 }]}>
 					<Text
 						style={[
@@ -46,35 +47,36 @@ function HomeScreen() {
 					<View style={[styles.section, { marginTop: 19 }]}>
 						<Text style={styles.sectionTitle}>Incomplete Tasks</Text>
 						<View style={styles.listContainer}>
-							<TaskItem
-								title='Client meeting'
-								subTitle='Tomorrow | 10:30pm'
-								onClick={() => {}}
-								isCompleted={false}
-							/>
-							<TaskItem
-								title='Client meeting'
-								subTitle='Tomorrow | 10:30pm'
-								onClick={() => {}}
-								isCompleted={false}
-							/>
+							{todos.map(todo => {
+								if (todo.completed === true) return;
+
+								return (
+									<TaskItem
+										key={todo.id}
+										title={todo.title}
+										subTitle={`${todo.date} | ${todo.time}`}
+										onClick={() => {}}
+										isCompleted={todo.completed}
+									/>
+								);
+							})}
 						</View>
 					</View>
 					<View style={[styles.section, { marginTop: 12, rowGap: 19 }]}>
 						<Text style={styles.sectionTitle}>Completed Tasks</Text>
 						<View style={styles.listContainer}>
-							<TaskItem
-								title='Client meeting'
-								subTitle='Tomorrow | 10:30pm'
-								onClick={() => {}}
-								isCompleted
-							/>
-							<TaskItem
-								title='Client meeting'
-								subTitle='Tomorrow | 10:30pm'
-								onClick={() => {}}
-								isCompleted
-							/>
+							{todos.map(todo => {
+								if (todo.completed === false) return;
+								return (
+									<TaskItem
+										key={todo.id}
+										title={todo.title}
+										subTitle={`${todo.date} | ${todo.time}`}
+										onClick={() => {}}
+										isCompleted={todo.completed}
+									/>
+								);
+							})}
 						</View>
 					</View>
 				</Wrapper>
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		paddingHorizontal: 18,
 	},
 	userInfo: {
 		flexDirection: 'row',
