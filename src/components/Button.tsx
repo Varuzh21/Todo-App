@@ -13,6 +13,7 @@ import Add from '@/assets/icons/add.svg';
 import Apple from '@/assets/icons/apple.svg';
 import Done from '@/assets/icons/done.svg';
 import Google from '@/assets/icons/google.svg';
+import Logout from '@/assets/icons/logout.svg';
 import Next from '@/assets/icons/next.svg';
 
 type ButtonVariant =
@@ -22,7 +23,8 @@ type ButtonVariant =
 	| 'apple'
 	| 'google'
 	| 'add'
-	| 'cancel';
+	| 'cancel'
+	| 'logout';
 
 type VariantConfig = {
 	style: StyleProp<ViewStyle>;
@@ -67,6 +69,11 @@ export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 			style: styles.cancel,
 			text: styles.cancelText,
 		},
+		logout: {
+			style: styles.logout,
+			text: styles.logoutText,
+			icon: <Logout />,
+		},
 	};
 
 	const isVariant = variants[variant];
@@ -81,9 +88,8 @@ export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 				<ActivityIndicator size='small' color='white' />
 			) : (
 				<>
-					{isVariant.icon ? (
-						isVariant.icon
-					) : (
+					{isVariant.icon && isVariant.icon}
+					{(title || isVariant.text) && (
 						<Text style={isVariant.text}>{title}</Text>
 					)}
 				</>
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 13,
 		backgroundColor: '#0EA5E9',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	text: {
 		fontFamily: 'Medium',
@@ -146,5 +152,20 @@ const styles = StyleSheet.create({
 		fontFamily: 'Medium',
 		fontSize: 16,
 		color: '#05243E',
+	},
+	logout: {
+		width: 226,
+		height: 42,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		columnGap: 11,
+		borderRadius: 20,
+		backgroundColor: '#fff',
+	},
+	logoutText: {
+		fontFamily: 'Regular',
+		fontSize: 16,
+		color: '#DC4343',
 	},
 });
