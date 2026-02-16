@@ -1,32 +1,40 @@
 import { useCallback, useRef } from 'react';
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 
-const data = [
-	{
-		title: 'Design Meeting',
-		content: 'Tomorrow | 10:30pm',
-	},
-	{
-		title: 'Projects Meeting',
-		content: 'Thursday | 10:30pm',
-	},
-];
+import { useTodo } from '@/hooks/useTodo';
+
 const width = Dimensions.get('window').width;
 const PAGE_WIDTH = width * 0.6;
 
 export function Slider() {
 	const ref = useRef<ICarouselInstance>(null);
+	const { todos } = useTodo();
+
+	console.log(todos, 'todos in slider');
 
 	const renderItem = useCallback(
-		({ item }: { item: { title: string; content: string } }) => {
+		({
+			item,
+		}: {
+			item: {
+				id: number;
+				title: string;
+				description: string;
+				date: string;
+				time: string;
+			};
+		}) => {
 			return (
-				<View style={styles.container}>
+				<View style={styles.container} key={item.id.toString()}>
 					<View style={styles.textContainer}>
 						<Text style={{ fontSize: 18, fontWeight: 'bold' }}>
 							{item.title}
 						</Text>
-						<Text>{item.content}</Text>
+						<Text>
+							{item.date} | {item.time}
+						</Text>
 					</View>
 					<View style={styles.imageContainer}>
 						<Image
@@ -44,7 +52,9 @@ export function Slider() {
 					</View>
 				</View>
 			);
-		},[]);
+		},
+		[],
+	);
 
 	return (
 		<Carousel
@@ -54,7 +64,7 @@ export function Slider() {
 			width={PAGE_WIDTH}
 			height={width / 3.5}
 			style={{ width: width }}
-			data={data}
+			data={todos}
 			renderItem={renderItem}
 		/>
 	);

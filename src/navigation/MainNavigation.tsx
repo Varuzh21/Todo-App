@@ -17,7 +17,6 @@ function MainNavigation() {
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
-				tabBarHideOnKeyboard: true,
 				tabBarShowLabel: false,
 				tabBarActiveTintColor: '#63F5EF',
 				tabBarInactiveTintColor: '#FFFFFF',

@@ -8,9 +8,14 @@ export function Header({ title }: { title: string }) {
 	const navigate = useNavigation();
 	return (
 		<View style={styles.header}>
-			<TouchableOpacity onPress={() => navigate.goBack()} style={styles.button}>
-				<Left />
-			</TouchableOpacity>
+			{title === 'Settings' ? null : (
+				<TouchableOpacity
+					onPress={() => navigate.goBack()}
+					style={styles.button}
+				>
+					<Left />
+				</TouchableOpacity>
+			)}
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>{title}</Text>
 			</View>

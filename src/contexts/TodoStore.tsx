@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useCallback, useMemo } from 'react';
+
 import { useMMKVObject } from 'react-native-mmkv';
 
 interface Todo {
@@ -20,6 +21,7 @@ interface TodoStoreProps {
 	) => void;
 	updateTodo: (id: number) => void;
 	deleteTodo: (id: number) => void;
+	getOneTodo: (id: number) => Todo | undefined;
 }
 
 export const TodoStore = createContext<TodoStoreProps>({
@@ -27,6 +29,7 @@ export const TodoStore = createContext<TodoStoreProps>({
 	createTodo: () => {},
 	updateTodo: () => {},
 	deleteTodo: () => {},
+	getOneTodo: () => undefined as unknown as Todo,
 });
 
 export function TodoProvider({ children }: { children: ReactNode }) {
@@ -66,14 +69,22 @@ export function TodoProvider({ children }: { children: ReactNode }) {
 		[todos, setTodos],
 	);
 
+	const getOneTodo = useCallback(
+		(id: number) => {
+			return (todos || []).find(todo => todo.id === id) || undefined;
+		},
+		[todos],
+	);
+
 	const value = useMemo(
 		() => ({
 			todos: todos || [],
 			createTodo,
 			deleteTodo,
 			updateTodo,
+			getOneTodo,
 		}),
-		[todos, createTodo, deleteTodo, updateTodo],
+		[todos, createTodo, deleteTodo, updateTodo, getOneTodo],
 	);
 
 	return <TodoStore.Provider value={value}>{children}</TodoStore.Provider>;

@@ -1,5 +1,8 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { useAuth } from '@/hooks/useAuth';
 import { useTodo } from '@/hooks/useTodo';
 
@@ -9,8 +12,11 @@ import { TaskItem } from '@/components/TaskItem';
 import { Wrapper } from '@/components/Wrapper';
 
 import Notification from '@/assets/icons/notification.svg';
+import { RootStackParamList } from '@/navigation/HomeNavigation';
 
 function HomeScreen() {
+	const navigation =
+		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const { user } = useAuth();
 
 	const { todos } = useTodo();
@@ -47,36 +53,39 @@ function HomeScreen() {
 					<View style={[styles.section, { marginTop: 19 }]}>
 						<Text style={styles.sectionTitle}>Incomplete Tasks</Text>
 						<View style={styles.listContainer}>
-							{todos.map(todo => {
-								if (todo.completed === true) return;
-
-								return (
+							{todos
+								.filter(todo => !todo.completed)
+								.slice(0, 2)
+								.map(todo => (
 									<TaskItem
 										key={todo.id}
 										title={todo.title}
 										subTitle={`${todo.date} | ${todo.time}`}
-										onClick={() => {}}
+										onClick={() =>
+											navigation.navigate('TaskDetail', { taskId: todo.id })
+										}
 										isCompleted={todo.completed}
 									/>
-								);
-							})}
+								))}
 						</View>
 					</View>
-					<View style={[styles.section, { marginTop: 12, rowGap: 19 }]}>
+					<View style={[styles.section, { marginTop: 20, rowGap: 19 }]}>
 						<Text style={styles.sectionTitle}>Completed Tasks</Text>
 						<View style={styles.listContainer}>
-							{todos.map(todo => {
-								if (todo.completed === false) return;
-								return (
+							{todos
+								.filter(todo => todo.completed)
+								.slice(0, 2)
+								.map(todo => (
 									<TaskItem
 										key={todo.id}
 										title={todo.title}
 										subTitle={`${todo.date} | ${todo.time}`}
-										onClick={() => {}}
+										onClick={() =>
+											navigation.navigate('TaskDetail', { taskId: todo.id })
+										}
 										isCompleted={todo.completed}
 									/>
-								);
-							})}
+								))}
 						</View>
 					</View>
 				</Wrapper>

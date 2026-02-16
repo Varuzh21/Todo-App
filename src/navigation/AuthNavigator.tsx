@@ -1,18 +1,18 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ConfirmScreen from '@/screens/Auth/ConfirmScreen';
 import DetailScreen from '@/screens/Auth/DetailScreen';
 import ReviewScreen from '@/screens/Auth/ReviewScreen';
 import ServiceScreen from '@/screens/Auth/ServiceScreen.tsx';
 import SignInScreen from '@/screens/Auth/SignInScreen.tsx';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export interface AuthStackParamList {
+export type AuthStackParamList = {
 	Service: undefined;
 	Detail: undefined;
 	Review: undefined;
 	Confirm: undefined;
 	SignIn: undefined;
 	[key: string]: undefined;
-}
+};
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 function AuthNavigator() {

@@ -3,6 +3,10 @@ import { FlatList, Keyboard, StyleSheet, Text, View } from 'react-native';
 
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
+import { TaskStackParamList } from '@/navigation/TaskNavigation';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { useTodo } from '@/hooks/useTodo';
 
 import { Button } from '@/components/Button';
@@ -19,6 +23,9 @@ function TaskScreen() {
 		description: '',
 	});
 	const { todos, createTodo } = useTodo();
+
+	const navigation =
+		useNavigation<NativeStackNavigationProp<TaskStackParamList>>();
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -37,7 +44,7 @@ function TaskScreen() {
 		if (!form.title.trim() || !form.description.trim()) {
 			return;
 		}
-		
+
 		createTodo(form.title, form.description, fullDate, time);
 
 		setForm({ title: '', description: '' });
@@ -84,7 +91,9 @@ function TaskScreen() {
 								<TaskItem
 									title={item.title}
 									subTitle={`${item.date} | ${item.time}`}
-									onClick={() => {}}
+									onClick={() =>
+										navigation.navigate('TaskDetail', { taskId: item.id })
+									}
 								/>
 							)}
 						/>
