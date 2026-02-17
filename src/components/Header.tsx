@@ -4,18 +4,24 @@ import Left from '@/assets/icons/left.svg';
 
 import { useNavigation } from '@react-navigation/native';
 
-export function Header({ title }: { title: string }) {
+export function Header({
+	title,
+	showBackButton,
+}: {
+	title: string;
+	showBackButton?: boolean;
+}) {
 	const navigate = useNavigation();
 	return (
 		<View style={styles.header}>
-			{title === 'Settings' ? null : (
+			{showBackButton ? (
 				<TouchableOpacity
 					onPress={() => navigate.goBack()}
 					style={styles.button}
 				>
 					<Left />
 				</TouchableOpacity>
-			)}
+			) : null}
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>{title}</Text>
 			</View>

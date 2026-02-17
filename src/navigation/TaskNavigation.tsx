@@ -1,8 +1,9 @@
-import { Header } from '@/components/Header';
-import { TodoProvider } from '@/contexts/TodoStore';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TaskDetail from '@/screens/Task/TaskDetail';
 import TaskScreen from '@/screens/Task/TaskScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { TodoProvider } from '@/contexts/TodoStore';
+import { Header } from '@/components/Header';
 
 export type TaskStackParamList = {
 	Task: undefined;
@@ -21,7 +22,7 @@ function TaskNavigation() {
 					name='TaskDetail'
 					component={TaskDetail}
 					options={{
-						header: () => <Header title='Task Details' />,
+						header: () => <Header title='Task Details' showBackButton />,
 						headerShown: true,
 						headerTransparent: true,
 					}}

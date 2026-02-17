@@ -12,8 +12,6 @@ export function Slider() {
 	const ref = useRef<ICarouselInstance>(null);
 	const { todos } = useTodo();
 
-	console.log(todos, 'todos in slider');
-
 	const renderItem = useCallback(
 		({
 			item,
