@@ -21,7 +21,7 @@ function HomeNavigation() {
 					name='TaskDetail'
 					component={TaskDetail}
 					options={{
-						header: () => <Header title='Task Details' />,
+						header: () => <Header title='Task Details' showBackButton />,
 						headerShown: true,
 						headerTransparent: true,
 					}}

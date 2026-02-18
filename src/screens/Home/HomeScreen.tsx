@@ -1,18 +1,18 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-import { useAuth } from '@/hooks/useAuth';
-import { useTodo } from '@/hooks/useTodo';
+import { useAuth } from '@/hooks/useAuth'
+import { useTodo } from '@/hooks/useTodo'
 
-import { GradientView } from '@/components/GradientView';
-import { Slider } from '@/components/Slider';
-import { TaskItem } from '@/components/TaskItem';
-import { Wrapper } from '@/components/Wrapper';
+import { GradientView } from '@/components/GradientView'
+import { Slider } from '@/components/Slider'
+import { TaskItem } from '@/components/TaskItem'
+import { Wrapper } from '@/components/Wrapper'
 
-import Notification from '@/assets/icons/notification.svg';
-import { RootStackParamList } from '@/navigation/HomeNavigation';
+import Notification from '@/assets/icons/notification.svg'
+import { RootStackParamList } from '@/navigation/HomeNavigation'
 
 function HomeScreen() {
 	const navigation =
@@ -23,7 +23,7 @@ function HomeScreen() {
 
 	return (
 		<GradientView>
-			<View style={styles.container}>
+			<ScrollView style={{flex: 1}} contentContainerStyle={styles.container}>
 				<View style={styles.header}>
 					<View style={styles.userInfo}>
 						<Image source={{ uri: user?.image }} style={styles.userAvatar} />
@@ -89,15 +89,15 @@ function HomeScreen() {
 						</View>
 					</View>
 				</Wrapper>
-			</View>
+			</ScrollView>
 		</GradientView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		marginTop: 26,
+		paddingBottom: 50,
 	},
 	header: {
 		flexDirection: 'row',

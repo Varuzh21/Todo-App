@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Calendar } from 'react-native-calendars';
 
@@ -40,8 +40,8 @@ function CalendarScreen() {
 
 	return (
 		<GradientView>
-			<Wrapper>
-				<View style={styles.container}>
+			<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
+				<Wrapper>
 					<View style={styles.contentStack}>
 						<Calendar
 							minDate={today}
@@ -89,17 +89,16 @@ function CalendarScreen() {
 							</View>
 						</View>
 					</View>
-				</View>
-			</Wrapper>
+				</Wrapper>
+			</ScrollView>
 		</GradientView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'flex-end',
-		marginBottom: 25,
+		paddingBottom: 25,
+		paddingTop: 80,
 	},
 	contentStack: {
 		flexDirection: 'column',

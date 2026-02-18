@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		rowGap: 95,
+		marginTop: 26,
 	},
 	menuWrapper: {
 		flexDirection: 'column',
