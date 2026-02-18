@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { AuthStackParamList } from '@/navigation/AuthNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,7 +13,7 @@ function ConfirmScreen() {
 		useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 	return (
 		<GradientView>
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.box}>
 					<Image
 						source={require('../../assets/images/confirm.png')}
@@ -31,7 +31,7 @@ function ConfirmScreen() {
 						onClick={() => navigation.navigate('SingIn')}
 					/>
 				</View>
-			</View>
+			</ScrollView>
 		</GradientView>
 	);
 }
@@ -40,11 +40,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'space-between',
+		marginVertical: 55,
 	},
 	box: {
-		marginTop: 74,
 		alignItems: 'center',
-		rowGap: 79,
+		justifyContent: 'space-between',
+		height: 436,
 	},
 	center: {
 		alignItems: 'center',
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
-		marginBottom: 56,
 		columnGap: 56,
 		marginRight: 34,
 	},

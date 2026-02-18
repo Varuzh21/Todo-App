@@ -39,7 +39,8 @@ interface InputProps {
 	secureTextEntry?: boolean;
 	onChange?: (text: string) => void;
 	onFocus?: () => void;
-	disabled?: boolean
+	onBlur?: () => void;
+	disabled?: boolean;
 }
 
 export function Input({
@@ -50,7 +51,8 @@ export function Input({
 	variant,
 	onChange,
 	onFocus,
-	disabled
+	onBlur,
+	disabled,
 }: InputProps) {
 	const variants: Record<InputVarian, VariantConfig> = {
 		email: {
@@ -108,6 +110,7 @@ export function Input({
 				editable={disabled}
 				onChangeText={onChange}
 				onFocus={onFocus}
+				onBlur={onBlur}
 				style={[
 					styles.input,
 					{ color: isVariant.textColor },

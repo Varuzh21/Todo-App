@@ -1,9 +1,9 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '@/navigation/AuthNavigator';
+import { useNavigation } from '@react-navigation/native'
+import { AuthStackParamList } from '@/navigation/AuthNavigator'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-import { useNavigation } from '@react-navigation/native';
 import { Button } from '@/components/Button'
 import { GradientView } from '@/components/GradientView'
 import { Steppers } from '@/components/Steppers'
@@ -13,7 +13,7 @@ function DetailScreen() {
 		useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 	return (
 		<GradientView>
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.box}>
 					<Image
 						source={require('../../assets/images/detail.png')}
@@ -33,7 +33,7 @@ function DetailScreen() {
 						onClick={() => navigation.navigate('Review')}
 					/>
 				</View>
-			</View>
+			</ScrollView>
 		</GradientView>
 	);
 }
@@ -42,16 +42,19 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'space-between',
+		marginVertical: 55,
 	},
 	box: {
-		marginTop: 60,
 		alignItems: 'center',
-		rowGap: 60,
+		justifyContent: 'space-between',
+		height: 436,
 	},
 	center: {
 		alignItems: 'center',
 	},
 	image: {
+		width: 300,
+		height: 300,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -64,7 +67,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
-		marginBottom: 56,
 		columnGap: 56,
 		marginRight: 34,
 	},

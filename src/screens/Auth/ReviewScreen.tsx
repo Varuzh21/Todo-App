@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '@/navigation/AuthNavigator';
@@ -13,7 +13,7 @@ function ReviewScreen() {
 		useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 	return (
 		<GradientView>
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				<View style={styles.box}>
 					<Image
 						source={require('../../assets/images/review.png')}
@@ -33,7 +33,7 @@ function ReviewScreen() {
 						onClick={() => navigation.navigate('Confirm')}
 					/>
 				</View>
-			</View>
+			</ScrollView>
 		</GradientView>
 	);
 }
@@ -42,16 +42,19 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'space-between',
+		marginVertical: 55,
 	},
 	box: {
-		marginTop: 92,
 		alignItems: 'center',
-		rowGap: 97,
+		justifyContent: 'space-between',
+		height: 436,
 	},
 	center: {
 		alignItems: 'center',
 	},
 	image: {
+		width: 250,
+		height: 250,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -64,7 +67,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
-		marginBottom: 56,
 		columnGap: 56,
 		marginRight: 34,
 	},

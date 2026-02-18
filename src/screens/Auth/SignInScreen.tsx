@@ -1,5 +1,12 @@
 import { useCallback, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 
 import { useAuth } from '@/hooks/useAuth';
 
@@ -14,92 +21,121 @@ function SignInScreen() {
 		username: '',
 		password: '',
 	});
+	const [offset, setOffset] = useState(0);
 
 	const { signIn, isLoading } = useAuth();
 
 	const handleSubmit = useCallback(async () => {
+		if (isLoading) return;
+
+		if (!form.username || !form.password) {
+			return;
+		}
+
 		try {
 			await signIn(form);
 		} catch (e) {
-			throw new Error(`error ${e}`);
+			console.error('Sign in failed:', e);
 		}
-	}, [form]);
+	}, [form, signIn, isLoading]);
 
 	return (
-		<GradientView>
-			<View style={styles.container}>
-				<View style={styles.topSection}>
-					<View style={styles.header}>
-						<View style={styles.logoWrapper}>
-							<Logo />
-						</View>
+		<View style={{ flex: 1 }}>
+			<GradientView>
+				<KeyboardAvoidingView
+					keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : offset}
+					behavior='padding'
+					style={{ flex: 1 }}
+				>
+					<ScrollView
+						style={styles.scroll}
+						contentContainerStyle={styles.container}
+						keyboardShouldPersistTaps='handled'
+					>
+						<View style={styles.topSection}>
+							<View style={styles.header}>
+								<View style={styles.logoWrapper}>
+									<Logo />
+								</View>
 
-						<View style={styles.textContainer}>
-							<Text style={styles.title}>Welcome Back to DO IT</Text>
-							<Text style={styles.subTitle}>
-								Have an other productive day !
-							</Text>
-						</View>
-					</View>
-
-					<View style={styles.form}>
-						<View style={styles.inputGroup}>
-							<Input
-								variant='email'
-								placeholder='E-mail'
-								type='email-address'
-								onChange={text => setForm({ ...form, username: text })}
-							/>
-							<Input
-								variant='password'
-								placeholder='Password'
-								secureTextEntry
-								onChange={text => setForm({ ...form, password: text })}
-							/>
-						</View>
-
-						<View style={styles.forgotSection}>
-							<View style={styles.forgotAlign}>
-								<Text style={styles.forgotText}>forget password?</Text>
+								<View style={styles.textContainer}>
+									<Text style={styles.title}>Welcome Back to DO IT</Text>
+									<Text style={styles.subTitle}>
+										Have an other productive day !
+									</Text>
+								</View>
 							</View>
 
-							<View style={styles.actions}>
-								<Button
-									variant='button'
-									title='sign in'
-									onClick={handleSubmit}
-									isLoading={isLoading}
-								/>
+							<View style={styles.form}>
+								<View style={styles.inputGroup}>
+									<Input
+										variant='email'
+										placeholder='E-mail'
+										type='email-address'
+										onChange={text => setForm({ ...form, username: text })}
+										onBlur={() => setOffset(0)}
+										onFocus={() => setOffset(50)}
+									/>
+									<Input
+										variant='password'
+										placeholder='Password'
+										secureTextEntry
+										onChange={text => setForm({ ...form, password: text })}
+										onBlur={() => setOffset(0)}
+										onFocus={() => setOffset(50)}
+									/>
+								</View>
 
-								<View style={styles.signupRow}>
-									<Text style={styles.signupText}>Don’t have an account?</Text>
-									<Text style={styles.signupLink}>sign up</Text>
+								<View style={styles.forgotSection}>
+									<View style={styles.forgotAlign}>
+										<Text style={styles.forgotText}>forget password?</Text>
+									</View>
+
+									<View style={styles.actions}>
+										<Button
+											variant='button'
+											title='sign in'
+											onClick={handleSubmit}
+											isLoading={isLoading}
+										/>
+
+										<View style={styles.signupRow}>
+											<Text style={styles.signupText}>
+												Don’t have an account?
+											</Text>
+											<Text style={styles.signupLink}>sign up</Text>
+										</View>
+									</View>
 								</View>
 							</View>
 						</View>
-					</View>
-				</View>
 
-				<View style={styles.socialSection}>
-					<Text style={styles.socialText}>Sign In with:</Text>
+						<View style={styles.socialSection}>
+							<Text style={styles.socialText}>Sign In with:</Text>
 
-					<View style={styles.socialButtons}>
-						<Button variant='apple' />
-						<Button variant='google' />
-					</View>
-				</View>
-			</View>
-		</GradientView>
+							<View style={styles.socialButtons}>
+								<Button variant='apple' />
+								<Button variant='google' />
+							</View>
+						</View>
+					</ScrollView>
+				</KeyboardAvoidingView>
+			</GradientView>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		marginTop: 30,
-		marginHorizontal: 26,
-		marginBottom: 95,
+		flexGrow: 1,
+		paddingTop: 30,
+		paddingBottom: 95,
+		rowGap: 48,
+		paddingHorizontal: 30,
 		justifyContent: 'space-between',
+	},
+	scroll: {
+		flex: 1,
 	},
 	topSection: {
 		gap: 48,
