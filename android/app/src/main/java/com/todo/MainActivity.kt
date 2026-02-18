@@ -17,8 +17,8 @@ class MainActivity : ReactActivity() {
   override fun getMainComponentName(): String = "Todo"
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
     SplashScreen.show(this)
+    supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
     super.onCreate(savedInstanceState)
   }
 
