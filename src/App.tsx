@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -7,7 +8,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { GradientView } from '@/components/GradientView.tsx';
 import { AppNavigation } from '@/navigation/AppNavigation.tsx';
 
+import SplashScreen from 'react-native-splash-screen';
+
 function App() {
+	
+	useEffect(() => {
+		SplashScreen.hide();
+	}, []);
+
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<BottomSheetModalProvider>

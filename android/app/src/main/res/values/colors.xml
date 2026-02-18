@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="status_bar_color">#1253AA</color>
+  <color name="splash_gradient_start">#1253AA</color>
+  <color name="splash_gradient_end">#05243E</color>
+</resources>
