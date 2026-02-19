@@ -28,7 +28,9 @@ export function Slider() {
 				<View style={styles.container} key={item.id.toString()}>
 					<View style={styles.textContainer}>
 						<Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-							{item.title}
+							{item.title.length > 18
+								? item.title.substring(0, 17) + '...'
+								: item.title}
 						</Text>
 						<Text>
 							{item.date} | {item.time}

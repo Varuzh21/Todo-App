@@ -13,11 +13,6 @@ function CalendarNavigation() {
 				<Stack.Screen
 					name='Calendar'
 					component={CalendarScreen}
-					options={{
-						header: () => <Header title='Manage Your Time' />,
-						headerShown: true,
-						headerTransparent: true,
-					}}
 				/>
 			</Stack.Navigator>
 		</TodoProvider>

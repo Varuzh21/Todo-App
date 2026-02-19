@@ -97,8 +97,7 @@ function CalendarScreen() {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingBottom: 25,
-		paddingTop: 80,
+		paddingVertical: 25,
 	},
 	contentStack: {
 		flexDirection: 'column',

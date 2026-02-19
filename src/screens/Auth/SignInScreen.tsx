@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
+	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
@@ -25,6 +26,16 @@ function SignInScreen() {
 
 	const { signIn, isLoading } = useAuth();
 
+	useEffect(() => {
+		const show = Keyboard.addListener('keyboardDidShow', () => setOffset(80));
+		const hide = Keyboard.addListener('keyboardDidHide', () => setOffset(0));
+
+		return () => {
+			show.remove();
+			hide.remove();
+		};
+	}, []);
+
 	const handleSubmit = useCallback(async () => {
 		if (isLoading) return;
 
@@ -44,7 +55,7 @@ function SignInScreen() {
 			<GradientView>
 				<KeyboardAvoidingView
 					keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : offset}
-					behavior='padding'
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 					style={{ flex: 1 }}
 				>
 					<ScrollView
@@ -73,16 +84,12 @@ function SignInScreen() {
 										placeholder='E-mail'
 										type='email-address'
 										onChange={text => setForm({ ...form, username: text })}
-										onBlur={() => setOffset(0)}
-										onFocus={() => setOffset(50)}
 									/>
 									<Input
 										variant='password'
 										placeholder='Password'
 										secureTextEntry
 										onChange={text => setForm({ ...form, password: text })}
-										onBlur={() => setOffset(0)}
-										onFocus={() => setOffset(50)}
 									/>
 								</View>
 

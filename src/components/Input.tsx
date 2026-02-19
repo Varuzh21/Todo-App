@@ -57,13 +57,13 @@ export function Input({
 	const variants: Record<InputVarian, VariantConfig> = {
 		email: {
 			style: styles.email,
-			icon: <Email />,
+			icon: <Email width={30} height={30} />,
 			placeholderTextColor: '#00000070',
 			textColor: '#000000',
 		},
 		password: {
 			style: styles.email,
-			icon: <Password />,
+			icon: <Password width={30} height={30} />,
 			placeholderTextColor: '#00000070',
 			textColor: '#000000',
 		},

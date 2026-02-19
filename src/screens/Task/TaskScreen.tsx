@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { FlatList, Keyboard, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Keyboard, StyleSheet, View } from 'react-native';
 
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
@@ -13,7 +13,6 @@ import { Button } from '@/components/Button';
 import { GradientView } from '@/components/GradientView';
 import { Input } from '@/components/Input';
 import { Search } from '@/components/Search';
-import { Select } from '@/components/Select';
 import { TaskItem } from '@/components/TaskItem';
 import { Wrapper } from '@/components/Wrapper';
 
@@ -22,14 +21,16 @@ function TaskScreen() {
 		title: '',
 		description: '',
 	});
-	const { todos, createTodo } = useTodo();
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const { createTodo, searchTodos } = useTodo();
 
 	const navigation =
 		useNavigation<NativeStackNavigationProp<TaskStackParamList>>();
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-	const snapPoints = useMemo(() => ['60%', '90%'], []);
+	const snapPoints = useMemo(() => ['65%', '100%'], []);
 
 	const date = new Date();
 	const hour = date.toTimeString();
@@ -64,28 +65,18 @@ function TaskScreen() {
 		Keyboard.dismiss();
 	}, []);
 
-	const ListHeader = useCallback(
-		() => (
-			<View>
-				<View style={styles.header}>
-					<Search value='' />
-					<Select />
-				</View>
-				<Text style={styles.sectionTitle}>Tasks List</Text>
-			</View>
-		),
-		[],
-	);
-
 	return (
 		<>
 			<GradientView>
 				<Wrapper>
 					<View style={styles.container}>
+						<Search
+							value={searchQuery}
+							onChange={(text) => setSearchQuery(text)}
+						/>
 						<FlatList
-							data={todos}
+							data={searchTodos(searchQuery)}
 							keyExtractor={item => item.id.toString()}
-							ListHeaderComponent={ListHeader}
 							contentContainerStyle={styles.listContent}
 							renderItem={({ item }) => (
 								<TaskItem
@@ -197,6 +188,7 @@ const styles = StyleSheet.create({
 	},
 	listContent: {
 		gap: 20,
+		marginTop: 46,
 	},
 	buttonContainer: {
 		alignItems: 'flex-end',

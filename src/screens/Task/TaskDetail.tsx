@@ -41,12 +41,12 @@ function TaskDetail() {
 							<Text style={styles.title}>{task?.title}</Text>
 							<View style={styles.subHeaderContent}>
 								<View style={styles.dateContainer}>
-									<Calendar width={15} height={15} fill='#E6E6E6' />
+									<Calendar width={20} height={20} fill='#E6E6E6' />
 									<Text style={styles.date}>{task?.date}</Text>
 								</View>
 								<Text style={styles.date}>|</Text>
 								<View style={styles.dateContainer}>
-									<Clock width={18} height={18} fill='#E6E6E6' />
+									<Clock width={20} height={20} fill='#E6E6E6' />
 									<Text style={styles.date}>{task?.time}</Text>
 								</View>
 							</View>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 	dateContainer: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		gap: 4,
 	},
 	date: {

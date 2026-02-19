@@ -85,7 +85,7 @@ export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 			disabled={isLoading}
 		>
 			{isLoading ? (
-				<ActivityIndicator size='small' color='white' />
+				<ActivityIndicator size='large' color='white' />
 			) : (
 				<>
 					{isVariant.icon && isVariant.icon}
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 	button: {
 		width: '100%',
 		borderRadius: 10,
-		paddingVertical: 13,
+		paddingVertical: 8,
 		backgroundColor: '#0EA5E9',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Medium',
 		fontSize: 18,
 		color: '#fff',
+		letterSpacing: 0.9,
 	},
 	apple: {
 		width: 45,
