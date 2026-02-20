@@ -30,7 +30,7 @@ function TaskScreen() {
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-	const snapPoints = useMemo(() => ['65%', '100%'], []);
+	const snapPoints = useMemo(() => ['65%', '95%'], []);
 
 	const date = new Date();
 	const hour = date.toTimeString();

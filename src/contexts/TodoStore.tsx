@@ -50,9 +50,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
 			};
 
 			setTodos(prevRows => [...(prevRows || []), newRow]);
-		},
-		[],
-	);
+		},[todos]);
 
 	const updateTodo = useCallback((id: number) => {
 		setTodos(prev =>
@@ -61,16 +59,16 @@ export function TodoProvider({ children }: { children: ReactNode }) {
 			),
 		);
 		ToastAndroid.show('Todo updated successfully', ToastAndroid.SHORT);
-	}, []);
+	}, [todos]);
 
 	const deleteTodo = useCallback((id: number) => {
 		setTodos(prev => (prev || []).filter(todo => todo.id !== id));
 		ToastAndroid.show('Todo deleted successfully', ToastAndroid.SHORT);
-	}, []);
+	}, [todos]);
 
 	const getOneTodo = useCallback((id: number) => {
 		return (todos || []).find(todo => todo.id === id) || undefined;
-	}, []);
+	}, [todos]);
 
 	const searchTodos = useCallback((query: string) => {
 		if (!query.trim()) return todos || [];
@@ -81,7 +79,7 @@ export function TodoProvider({ children }: { children: ReactNode }) {
 				todo.title.toLowerCase().includes(lowerCaseQuery) ||
 				todo.description.toLowerCase().includes(lowerCaseQuery),
 		);
-	}, []);
+	},[todos]);
 
 	const value = useMemo(
 		() => ({

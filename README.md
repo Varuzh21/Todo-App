@@ -1,97 +1,123 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Todo App
 
-# Getting Started
+A modern, cross-platform mobile todo application built with React Native and TypeScript. The app helps users organize tasks, track progress, and manage their daily activities with an intuitive interface featuring authentication, local storage, and calendar integration.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Overview
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+This Todo App is a mobile application that helps people stay organized and productive. Users can create tasks, set deadlines, mark items as complete, and view their tasks in a calendar format. The app works offline, so users don't need an internet connection to manage their tasks. It features a clean, modern design with smooth animations and an easy-to-use interface.
 
-```sh
-# Using npm
+**Value & Impact:**
+- Improves personal productivity and task management
+- Works offline, ensuring tasks are always accessible
+- Provides multiple ways to view and organize tasks (list view, calendar view)
+- Secure user authentication protects personal data
+- Fast and responsive user experience
+
+---
+
+## App Demo Video
+
+Insert app video link here
+
+
+---
+
+## Key Features
+
+- **User Authentication** - Secure sign-in with email/password and social login options (Google, Apple)
+- **Task Management** - Create, edit, complete, and delete tasks with title, description, date, and time
+- **Search Functionality** - Quickly find tasks by searching through titles and descriptions
+- **Calendar View** - Visual calendar interface to schedule and view tasks by date
+- **Offline Storage** - All tasks are saved locally on the device, ensuring data persistence
+- **Task Organization** - Group tasks by completion status (incomplete/completed)
+- **Modern UI** - Gradient backgrounds, smooth animations, and intuitive navigation
+
+---
+
+## Tech Stack
+
+**Core:**
+- React Native 0.83.1
+- React 19.2.0
+- TypeScript 5.9.3
+
+---
+
+## How It Works
+
+**High-Level Architecture:**
+
+1. **Authentication Flow**: Users sign in via email/password or social providers. The app stores authentication tokens securely and attaches them to API requests.
+
+2. **Task Storage**: Tasks are stored locally using MMKV (a fast key-value storage solution), ensuring data persists between app sessions without requiring cloud connectivity.
+
+3. **Navigation Structure**: The app uses a bottom tab navigator with four main sections:
+   - **Home**: Dashboard showing user profile, grouped tasks, and quick overview
+   - **Tasks**: Full task list with search and task creation via bottom sheet
+   - **Calendar**: Calendar view for scheduling and viewing tasks by date
+   - **Settings**: User profile and app settings
+
+4. **State Management**: React Context providers (`AuthStore`, `TodoStore`) manage global application state, making data accessible across all screens.
+
+5. **Component Architecture**: Reusable UI components (Button, Input, TaskItem, etc.) ensure consistency and maintainability.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- React Native development environment set up
+  - For Android: Android Studio, JDK, Android SDK
+  - For iOS: Xcode, CocoaPods (macOS only)
+- See [React Native Environment Setup](https://reactnative.dev/docs/set-up-your-environment) for detailed instructions
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Todo-App
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install iOS dependencies** (iOS only)
+   ```bash
+   cd ios
+   bundle install
+   bundle exec pod install
+   cd ..
+   ```
+
+### Running the App
+
+**Start Metro bundler:**
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+**Run on Android:**
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+**Run on iOS:**
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Available Scripts
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- `npm start` - Start Metro bundler
+- `npm run android` - Run on Android device/emulator
+- `npm run ios` - Run on iOS simulator/device
+- `npm test` - Run Jest tests
+- `npm run lint` - Run ESLint
