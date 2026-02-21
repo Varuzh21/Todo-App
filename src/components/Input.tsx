@@ -107,7 +107,7 @@ export function Input({
 				secureTextEntry={secureTextEntry}
 				multiline={isVariant.multiline}
 				textAlignVertical={isVariant.multiline ? 'top' : 'center'}
-				editable={disabled}
+				editable={!disabled}
 				onChangeText={onChange}
 				onFocus={onFocus}
 				onBlur={onBlur}

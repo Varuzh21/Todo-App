@@ -85,7 +85,11 @@ export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 			disabled={isLoading}
 		>
 			{isLoading ? (
-				<ActivityIndicator size='large' color='white' />
+				<ActivityIndicator
+					size='small'
+					color='white'
+					style={styles.activityIndicator}
+				/>
 			) : (
 				<>
 					{isVariant.icon && isVariant.icon}
@@ -99,6 +103,9 @@ export function Button({ variant, title, onClick, isLoading }: ButtonProps) {
 }
 
 const styles = StyleSheet.create({
+	activityIndicator: {
+		paddingVertical: 6,
+	},
 	next: {
 		width: 70,
 		height: 70,
