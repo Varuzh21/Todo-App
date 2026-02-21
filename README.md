@@ -20,8 +20,7 @@ This Todo App is a mobile application that helps people stay organized and produ
 
 ## App Demo Video
 
-Insert app video link here
-
+[Watch App Demo](https://drive.google.com/file/d/1Nz2b-2twVxJyLYgUdxTihCJC5OnyOSqQ/view)
 
 ---
 
