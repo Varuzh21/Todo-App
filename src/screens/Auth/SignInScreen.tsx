@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { useAuth } from '@/hooks/useAuth';
+import { getFieldErrors } from '@/utils/errors';
 
 import { Button } from '@/components/Button';
 import { GradientView } from '@/components/GradientView';
@@ -23,6 +24,7 @@ function SignInScreen() {
 		password: '',
 	});
 	const [offset, setOffset] = useState(0);
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
 	const { signIn, isLoading } = useAuth();
 
@@ -43,10 +45,11 @@ function SignInScreen() {
 			return;
 		}
 
+		setFieldErrors({});
 		try {
 			await signIn(form);
 		} catch (e) {
-			console.error('Sign in failed:', e);
+			setFieldErrors(getFieldErrors(e));
 		}
 	}, [form, signIn, isLoading]);
 
@@ -79,18 +82,34 @@ function SignInScreen() {
 
 							<View style={styles.form}>
 								<View style={styles.inputGroup}>
-									<Input
-										variant='email'
-										placeholder='E-mail'
-										type='email-address'
-										onChange={text => setForm({ ...form, username: text })}
-									/>
-									<Input
-										variant='password'
-										placeholder='Password'
-										secureTextEntry
-										onChange={text => setForm({ ...form, password: text })}
-									/>
+									<View>
+										<Input
+											variant='email'
+											placeholder='E-mail'
+											type='email-address'
+											onChange={text => {
+												setForm({ ...form, username: text });
+												if (fieldErrors.username) setFieldErrors(({ username: _, ...rest }) => rest);
+											}}
+										/>
+										{fieldErrors.username ? (
+											<Text style={styles.errorText}>{fieldErrors.username}</Text>
+										) : null}
+									</View>
+									<View>
+										<Input
+											variant='password'
+											placeholder='Password'
+											secureTextEntry
+											onChange={text => {
+												setForm({ ...form, password: text });
+												if (fieldErrors.password) setFieldErrors(({ password: _, ...rest }) => rest);
+											}}
+										/>
+										{fieldErrors.password ? (
+											<Text style={styles.errorText}>{fieldErrors.password}</Text>
+										) : null}
+									</View>
 								</View>
 
 								<View style={styles.forgotSection}>
@@ -170,7 +189,13 @@ const styles = StyleSheet.create({
 		rowGap: 24,
 	},
 	inputGroup: {
-		rowGap: 56,
+		gap: 24,
+	},
+	errorText: {
+		fontFamily: 'Regular',
+		fontSize: 14,
+		color: '#ED1010',
+		marginTop: 8,
 	},
 	forgotSection: {
 		gap: 16,

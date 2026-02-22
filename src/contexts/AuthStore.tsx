@@ -1,4 +1,5 @@
 import { LoginInput, LoginSchema } from '@/schemas/auth.schema';
+import { getErrorMessage } from '@/utils/errors';
 import { storage } from '@/services/storage';
 import {
 	createContext,
@@ -51,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				}
 				setIsLoading(false);
 			} catch (e) {
-				console.log(`error ${e}`);
+				console.error(getErrorMessage(e));
 				setIsLoading(false);
 			}
 		})();
@@ -63,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 			setUser(data);
 		} catch (e) {
-			console.log(`error ${e}`);
+			console.error(getErrorMessage(e));
 			signOut();
 		}
 	}, []);
@@ -90,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			return data;
 		} catch (e) {
 			setIsLoading(false);
-			throw new Error(`error ${e}`);
+			throw e;
 		}
 	}, []);
 
