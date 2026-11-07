@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 function ServiceScreen() {
 	const navigation =
 		useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
 	return (
 		<GradientView>
 			<ScrollView contentContainerStyle={styles.container}>
