@@ -1,15 +1,20 @@
 {
-	"extends": "@react-native/typescript-config",
-	"compilerOptions": {
-		"ignoreDeprecations": "6.0",
-		"baseUrl": ".",
-		"types": ["node"],
-		"paths": {
-			"@/*": ["src/*"],
-			"tests": ["tests/*"],
-			"@components/*": ["src/components/*"]
-		}
-	},
-	"include": ["**/*.ts", "**/*.tsx", "svg.d.ts", "src/App", "index.ts", "react-native.config.js"],
-	"exclude": ["**/node_modules", "**/Pods"]
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/assets/*": [
+        "./assets/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
 }

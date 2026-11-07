@@ -1,9 +1,0 @@
-module.exports = {
-  "trailingComma": "all",
-  "tabWidth": 2,
-  "useTabs": true,
-  "semi": true,
-  "singleQuote": true,
-  "jsxSingleQuote": true,
-  "arrowParens": "avoid"
-};

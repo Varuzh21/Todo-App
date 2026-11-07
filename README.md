@@ -1,122 +1,56 @@
-# Todo App
+# Welcome to your Expo app 👋
 
-A modern, cross-platform mobile todo application built with React Native and TypeScript. The app helps users organize tasks, track progress, and manage their daily activities with an intuitive interface featuring authentication, local storage, and calendar integration.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Get started
 
----
+1. Install dependencies
 
-## Overview
-
-This Todo App is a mobile application that helps people stay organized and productive. Users can create tasks, set deadlines, mark items as complete, and view their tasks in a calendar format. The app works offline, so users don't need an internet connection to manage their tasks. It features a clean, modern design with smooth animations and an easy-to-use interface.
-
-**Value & Impact:**
-- Improves personal productivity and task management
-- Works offline, ensuring tasks are always accessible
-- Provides multiple ways to view and organize tasks (list view, calendar view)
-- Secure user authentication protects personal data
-- Fast and responsive user experience
-
----
-
-## App Demo Video
-
-[Watch App Demo](https://drive.google.com/file/d/1Nz2b-2twVxJyLYgUdxTihCJC5OnyOSqQ/view)
-
----
-
-## Key Features
-
-- **User Authentication** - Secure sign-in with email/password and social login options (Google, Apple)
-- **Task Management** - Create, edit, complete, and delete tasks with title, description, date, and time
-- **Search Functionality** - Quickly find tasks by searching through titles and descriptions
-- **Calendar View** - Visual calendar interface to schedule and view tasks by date
-- **Offline Storage** - All tasks are saved locally on the device, ensuring data persistence
-- **Task Organization** - Group tasks by completion status (incomplete/completed)
-- **Modern UI** - Gradient backgrounds, smooth animations, and intuitive navigation
-
----
-
-## Tech Stack
-
-**Core:**
-- React Native 0.83.1
-- React 19.2.0
-- TypeScript 5.9.3
-
----
-
-## How It Works
-
-**High-Level Architecture:**
-
-1. **Authentication Flow**: Users sign in via email/password or social providers. The app stores authentication tokens securely and attaches them to API requests.
-
-2. **Task Storage**: Tasks are stored locally using MMKV (a fast key-value storage solution), ensuring data persists between app sessions without requiring cloud connectivity.
-
-3. **Navigation Structure**: The app uses a bottom tab navigator with four main sections:
-   - **Home**: Dashboard showing user profile, grouped tasks, and quick overview
-   - **Tasks**: Full task list with search and task creation via bottom sheet
-   - **Calendar**: Calendar view for scheduling and viewing tasks by date
-   - **Settings**: User profile and app settings
-
-4. **State Management**: React Context providers (`AuthStore`, `TodoStore`) manage global application state, making data accessible across all screens.
-
-5. **Component Architecture**: Reusable UI components (Button, Input, TaskItem, etc.) ensure consistency and maintainability.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 20
-- React Native development environment set up
-  - For Android: Android Studio, JDK, Android SDK
-  - For iOS: Xcode, CocoaPods (macOS only)
-- See [React Native Environment Setup](https://reactnative.dev/docs/set-up-your-environment) for detailed instructions
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Todo-App
-   ```
-
-2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Install iOS dependencies** (iOS only)
+2. Start the app
+
    ```bash
-   cd ios
-   bundle install
-   bundle exec pod install
-   cd ..
+   npx expo start
    ```
 
-### Running the App
+In the output, you'll find options to open the app in a
 
-**Start Metro bundler:**
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
 ```bash
-npm start
+npm run reset-project
 ```
 
-**Run on Android:**
-```bash
-npm run android
-```
+This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
 
-**Run on iOS:**
-```bash
-npm run ios
-```
+### Other setup steps
 
-### Available Scripts
+- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
+- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
+- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
 
-- `npm start` - Start Metro bundler
-- `npm run android` - Run on Android device/emulator
-- `npm run ios` - Run on iOS simulator/device
-- `npm test` - Run Jest tests
-- `npm run lint` - Run ESLint
+## Learn more
+
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
