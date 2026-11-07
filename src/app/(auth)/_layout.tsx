@@ -1,14 +1,14 @@
 import { Stack } from 'expo-router';
 
 export const unstable_settings = {
-  anchor: 'welcome',
+	anchor: 'welcome',
 };
 
 export default function AuthLayout() {
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="welcome" />
-      <Stack.Screen name="sign-in" />
-    </Stack>
-  );
+	return (
+		<Stack screenOptions={{ headerShown: false }}>
+			<Stack.Screen name='welcome' />
+			<Stack.Screen name='sign-in' />
+		</Stack>
+	);
 }

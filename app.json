@@ -1,44 +1,44 @@
 {
-  "expo": {
-    "name": "Todo-App",
-    "slug": "Todo-App",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./src/shared/assets/images/icon.png",
-    "scheme": "todoapp",
-    "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./src/shared/assets/expo.icon",
-      "bundleIdentifier": "com.anonymous.TodoApp"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./src/shared/assets/images/android-icon-foreground.png",
-        "backgroundImage": "./src/shared/assets/images/android-icon-background.png",
-        "monochromeImage": "./src/shared/assets/images/android-icon-monochrome.png"
-      },
-      "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.TodoApp"
-    },
-    "web": {
-      "output": "server",
-      "favicon": "./src/shared/assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#208AEF",
-          "image": "./src/shared/assets/images/splash-icon.png",
-          "imageWidth": 76
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
-  }
+	"expo": {
+		"name": "Todo-App",
+		"slug": "Todo-App",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./src/shared/assets/images/icon.png",
+		"scheme": "todoapp",
+		"userInterfaceStyle": "light",
+		"ios": {
+			"icon": "./src/shared/assets/expo.icon",
+			"bundleIdentifier": "com.anonymous.TodoApp"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#E6F4FE",
+				"foregroundImage": "./src/shared/assets/images/android-icon-foreground.png",
+				"backgroundImage": "./src/shared/assets/images/android-icon-background.png",
+				"monochromeImage": "./src/shared/assets/images/android-icon-monochrome.png"
+			},
+			"predictiveBackGestureEnabled": false,
+			"package": "com.anonymous.TodoApp"
+		},
+		"web": {
+			"output": "server",
+			"favicon": "./src/shared/assets/images/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#208AEF",
+					"image": "./src/shared/assets/images/splash-icon.png",
+					"imageWidth": 76
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true,
+			"reactCompiler": true
+		}
+	}
 }
