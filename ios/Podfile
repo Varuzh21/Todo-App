@@ -30,5 +30,15 @@ target 'Todo' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # fmt 11.0.2 (bundled with RN 0.83) fails to compile its consteval format
+    # strings under C++20 with newer Xcode Clang. C++17 disables consteval in fmt.
+    installer.pods_project.targets.each do |target|
+      next unless target.name == 'fmt'
+
+      target.build_configurations.each do |build_config|
+        build_config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
+      end
+    end
   end
 end
