@@ -8,6 +8,16 @@ export const PALETTE = {
 	neutral40: '#202D4166',
 	black: '#000000',
 	white: '#FFFFFF',
+	gray: '#A8A9AA',
+} as const;
+
+export const FONTS = {
+	galanoRegular: 'GalanoGrotesqueAlt-Regular',
+	galanoMedium: 'GalanoGrotesque-Medium',
+	galanoSemiBold: 'GalanoGrotesqueAlt-SemiBold',
+	outfitRegular: 'Outfit-Regular',
+	walsheimRegular: 'GTWalsheimPro-Regular',
+	walsheimMedium: 'GTWalsheimPro-Medium',
 } as const;
 
 export const COLORS = {

@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "Todo-App",
-		"slug": "Todo-App",
+		"name": "Todo",
+		"slug": "Todo",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./src/shared/assets/images/icon.png",
@@ -33,6 +33,19 @@
 					"backgroundColor": "#208AEF",
 					"image": "./src/shared/assets/images/splash-icon.png",
 					"imageWidth": 76
+				}
+			],
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./src/shared/assets/fonts/GalanoGrotesqueAlt-Regular.ttf",
+						"./src/shared/assets/fonts/GalanoGrotesque-Medium.ttf",
+						"./src/shared/assets/fonts/GalanoGrotesqueAlt-SemiBold.ttf",
+						"./src/shared/assets/fonts/Outfit-Regular.ttf",
+						"./src/shared/assets/fonts/GTWalsheimPro-Regular.ttf",
+						"./src/shared/assets/fonts/GTWalsheimPro-Medium.ttf"
+					]
 				}
 			]
 		],

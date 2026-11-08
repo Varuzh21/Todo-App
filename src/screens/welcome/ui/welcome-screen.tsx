@@ -1,16 +1,35 @@
-import { Link } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { COLORS } from '@/shared/config/theme';
+import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
+import { Button } from '@/shared/ui/button';
+import { Logo } from '@/shared/ui/logo';
 
 export function WelcomeScreen() {
+	const router = useRouter();
+
 	return (
 		<SafeAreaView style={styles.container}>
-			<Text style={styles.title}>Welcome</Text>
-			<Link href='/sign-in'>
-				<Text style={styles.link}>Go to sign in</Text>
-			</Link>
+			<View style={styles.content}>
+				<View style={styles.body}>
+					<View style={styles.intro}>
+						<Logo />
+						<Text style={styles.description}>
+							Welcome to a whole new world of scheduling made easier
+						</Text>
+					</View>
+					<View style={styles.pagination}>
+						{Array.from({ length: 3 }, (_, index) => index).map(index => (
+							<View
+								key={index}
+								style={[styles.dot, index === 0 && styles.activeDot]}
+							/>
+						))}
+					</View>
+				</View>
+				<Button label='Get Started' onPress={() => router.push('/sign-in')} />
+			</View>
 		</SafeAreaView>
 	);
 }
@@ -18,20 +37,38 @@ export function WelcomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		justifyContent: 'center',
+		paddingHorizontal: 52,
 		backgroundColor: COLORS.background,
 	},
-	title: {
-		fontSize: 32,
-		lineHeight: 44,
-		fontWeight: 600,
+	content: {
+		gap: 100,
+	},
+	body: {
+		gap: 68,
+	},
+	intro: {
+		gap: 45,
+	},
+	description: {
+		fontFamily: FONTS.galanoMedium,
+		fontSize: 18,
+		lineHeight: 20,
+		textAlign: 'center',
 		color: COLORS.text,
 	},
-	link: {
-		fontSize: 16,
-		lineHeight: 24,
-		fontWeight: 500,
-		color: COLORS.textSecondary,
+	pagination: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 20,
+	},
+	dot: {
+		width: 10,
+		height: 10,
+		borderRadius: 5,
+		backgroundColor: PALETTE.gray,
+	},
+	activeDot: {
+		backgroundColor: PALETTE.primary,
 	},
 });
