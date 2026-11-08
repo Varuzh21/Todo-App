@@ -1,10 +1,10 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
-import { Navigation } from '@/entities/navigation';
-import { SessionProvider } from '@/entities/session';
+import { SessionProvider, useSession } from '@/entities/session';
 import { queryClient } from '@/shared/api';
 import { FONT_SOURCES } from '@/shared/config/font-sources';
 
@@ -28,8 +28,24 @@ export default function RootLayout() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SessionProvider>
-				<Navigation />
+				<RootNavigator />
 			</SessionProvider>
 		</QueryClientProvider>
+	);
+}
+
+function RootNavigator() {
+	const { isSignedIn } = useSession();
+
+	return (
+		<Stack screenOptions={{ headerShown: false }}>
+			<Stack.Protected guard={isSignedIn} redirectTo='/welcome'>
+				<Stack.Screen name='(app)' />
+			</Stack.Protected>
+
+			<Stack.Protected guard={!isSignedIn} redirectTo='/home'>
+				<Stack.Screen name='(auth)' />
+			</Stack.Protected>
+		</Stack>
 	);
 }
