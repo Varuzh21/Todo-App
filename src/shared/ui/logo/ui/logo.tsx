@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Logo as LogoIcon } from '@/shared/assets/icons';
 import { FONTS, PALETTE } from '@/shared/config/theme';
+import { LogoIcon } from '@/shared/ui/icons';
 
 interface LogoProps extends ComponentProps<View> {
 	width?: number;

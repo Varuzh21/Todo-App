@@ -1,1 +1,1 @@
-export { SignInScreen } from './ui/sign-in-screen';
+export { SignInScreen } from './ui/sign-in.screen';

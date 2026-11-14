@@ -9,6 +9,7 @@ export const PALETTE = {
 	black: '#000000',
 	white: '#FFFFFF',
 	gray: '#A8A9AA',
+	grayLight: '#E2E4E7',
 } as const;
 
 export const FONTS = {

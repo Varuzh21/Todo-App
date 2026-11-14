@@ -9,7 +9,6 @@ import {
 
 import { FONTS, PALETTE } from '@/shared/config/theme';
 
-// The button is disabled only while loading, so `disabled` isn't a prop.
 interface ButtonProps extends Omit<PressableProps, 'disabled'> {
 	label?: string;
 	icon?: ReactNode;

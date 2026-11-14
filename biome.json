@@ -75,16 +75,6 @@
 					}
 				}
 			}
-		},
-		{
-			"includes": ["**/*.d.ts"],
-			"linter": {
-				"rules": {
-					"style": {
-						"noDefaultExport": "off"
-					}
-				}
-			}
 		}
 	]
 }

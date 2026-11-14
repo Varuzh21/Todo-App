@@ -9,7 +9,6 @@ type SessionContextValue = {
 
 export const SessionContext = createContext<SessionContextValue | null>(null);
 
-// The token lives in memory only; persist it (e.g. expo-secure-store) once sign-in is implemented.
 export function SessionProvider({ children }: PropsWithChildren) {
 	const [token, setToken] = useState<string | null>(null);
 
