@@ -1,13 +1,20 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { SignOutButton } from '@/features/auth';
 import { COLORS } from '@/shared/config/theme';
+import { Wrapper } from '@/shared/ui/wrapper';
 
-export function HomeScreen() {
+export function MenuScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
-			<Text style={styles.title}>Todo App</Text>
-			<Text style={styles.description}>FSD structure is ready.</Text>
+			<View style={styles.content}>
+				<Text style={styles.title}>Todo App</Text>
+				<Text style={styles.description}>FSD structure is ready.</Text>
+			</View>
+			<Wrapper>
+				<SignOutButton />
+			</Wrapper>
 		</SafeAreaView>
 	);
 }
@@ -15,9 +22,12 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: COLORS.background,
+	},
+	content: {
+		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: COLORS.background,
 	},
 	title: {
 		fontSize: 32,

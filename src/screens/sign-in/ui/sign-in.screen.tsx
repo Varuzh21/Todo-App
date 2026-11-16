@@ -9,7 +9,12 @@ import { Wrapper } from '@/shared/ui/wrapper';
 export function SignInScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
+			<ScrollView
+				style={{ flex: 1 }}
+				contentContainerStyle={styles.container}
+				alwaysBounceVertical={false}
+				keyboardShouldPersistTaps='handled'
+			>
 				<Wrapper>
 					<View style={{ paddingTop: 80, gap: 40 }}>
 						<Logo

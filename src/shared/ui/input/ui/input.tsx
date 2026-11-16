@@ -11,8 +11,6 @@ import {
 import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
 import { EyeClosedIcon, EyeOpenIcon } from '@/shared/ui/icons';
 
-const TOGGLE_HIT_SLOP = 12;
-
 type FocusEvent = Parameters<NonNullable<TextInputProps['onFocus']>>[0];
 type BlurEvent = Parameters<NonNullable<TextInputProps['onBlur']>>[0];
 
@@ -74,7 +72,7 @@ export function Input({
 						accessibilityLabel={
 							isTextHidden ? 'Show password' : 'Hide password'
 						}
-						hitSlop={TOGGLE_HIT_SLOP}
+						hitSlop={12}
 						onPress={togglePasswordVisibility}
 					>
 						{isTextHidden ? (

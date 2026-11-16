@@ -1,23 +1,38 @@
 import { createContext, type PropsWithChildren, useState } from 'react';
 
+import {
+	type AuthTokens,
+	clearTokens,
+	getAccessTokenSync,
+	queryClient,
+	saveTokens,
+} from '@/shared/api';
+
 type SessionContextValue = {
-	token: string | null;
 	isSignedIn: boolean;
-	signIn: (token: string) => void;
-	signOut: () => void;
+	signIn: (tokens: AuthTokens) => Promise<void>;
+	signOut: () => Promise<void>;
 };
 
 export const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: PropsWithChildren) {
-	const [token, setToken] = useState<string | null>(null);
+	const [isSignedIn, setIsSignedIn] = useState(
+		() => getAccessTokenSync() !== null,
+	);
 
-	const value: SessionContextValue = {
-		token,
-		isSignedIn: token !== null,
-		signIn: setToken,
-		signOut: () => setToken(null),
-	};
+	async function signIn(tokens: AuthTokens) {
+		await saveTokens(tokens);
+		setIsSignedIn(true);
+	}
+
+	async function signOut() {
+		await clearTokens();
+		queryClient.clear();
+		setIsSignedIn(false);
+	}
+
+	const value: SessionContextValue = { isSignedIn, signIn, signOut };
 
 	return <SessionContext value={value}>{children}</SessionContext>;
 }

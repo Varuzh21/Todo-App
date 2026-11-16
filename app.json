@@ -9,7 +9,7 @@
 		"userInterfaceStyle": "light",
 		"ios": {
 			"icon": "./src/shared/assets/expo.icon",
-			"bundleIdentifier": "com.anonymous.TodoApp",
+			"bundleIdentifier": "com.varuzhan23.todoapp",
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false
 			}
@@ -22,7 +22,7 @@
 				"monochromeImage": "./src/shared/assets/images/android-icon-monochrome.png"
 			},
 			"predictiveBackGestureEnabled": false,
-			"package": "com.anonymous.TodoApp"
+			"package": "com.varuzhan23.todoapp"
 		},
 		"web": {
 			"output": "server",
@@ -49,6 +49,13 @@
 						"./src/shared/assets/fonts/GTWalsheimPro-Regular.ttf",
 						"./src/shared/assets/fonts/GTWalsheimPro-Medium.ttf"
 					]
+				}
+			],
+			[
+				"expo-secure-store",
+				{
+					"configureAndroidBackup": true,
+					"faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
 				}
 			]
 		],

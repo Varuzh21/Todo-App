@@ -1,13 +1,16 @@
 import { Tabs } from 'expo-router';
 
 export const unstable_settings = {
-	anchor: 'home',
+	anchor: 'menu',
 };
 
 export default function AppLayout() {
 	return (
-		<Tabs>
-			<Tabs.Screen name='home' />
+		<Tabs screenOptions={{ headerShown: false }}>
+			<Tabs.Screen name='menu' />
+			<Tabs.Screen name='task' />
+			<Tabs.Screen name='calendar' />
+			<Tabs.Screen name='profile' />
 		</Tabs>
 	);
 }

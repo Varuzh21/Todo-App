@@ -15,12 +15,6 @@ export default function RootLayout() {
 
 	const isReady = isFontsLoaded || fontError !== null;
 
-	useEffect(() => {
-		if (isReady) {
-			SplashScreen.hideAsync();
-		}
-	}, [isReady]);
-
 	if (!isReady) {
 		return null;
 	}
@@ -37,13 +31,17 @@ export default function RootLayout() {
 function RootNavigator() {
 	const { isSignedIn } = useSession();
 
+	useEffect(() => {
+		SplashScreen.hideAsync();
+	}, []);
+
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Protected guard={isSignedIn} redirectTo='/welcome'>
 				<Stack.Screen name='(app)' />
 			</Stack.Protected>
 
-			<Stack.Protected guard={!isSignedIn} redirectTo='/home'>
+			<Stack.Protected guard={!isSignedIn} redirectTo='/menu'>
 				<Stack.Screen name='(auth)' />
 			</Stack.Protected>
 		</Stack>
