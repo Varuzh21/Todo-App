@@ -10,6 +10,7 @@ export const unstable_settings = {
 export default function TaskLayout() {
 	return (
 		<TopTabs
+			backBehavior='initialRoute'
 			screenOptions={{
 				tabBarScrollEnabled: true,
 				tabBarGap: 24,
