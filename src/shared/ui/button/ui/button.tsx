@@ -1,18 +1,14 @@
 import { Fragment, type ReactNode } from 'react';
-import {
-	ActivityIndicator,
-	Pressable,
-	type PressableProps,
-	StyleSheet,
-	Text,
-} from 'react-native';
+import type { PressableProps, StyleProp, ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 
 import { FONTS, PALETTE } from '@/shared/config/theme';
 
-interface ButtonProps extends Omit<PressableProps, 'disabled'> {
+interface ButtonProps extends Omit<PressableProps, 'disabled' | 'style'> {
 	label?: string;
 	icon?: ReactNode;
 	isLoading?: boolean;
+	style?: StyleProp<ViewStyle>;
 }
 
 export function Button({
@@ -27,10 +23,7 @@ export function Button({
 			accessibilityRole='button'
 			accessibilityState={{ disabled: isLoading, busy: isLoading }}
 			disabled={isLoading}
-			style={state => [
-				styles.container,
-				typeof style === 'function' ? style(state) : style,
-			]}
+			style={[styles.container, style]}
 			{...props}
 		>
 			{isLoading ? (

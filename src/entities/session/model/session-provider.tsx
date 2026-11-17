@@ -1,4 +1,5 @@
-import { createContext, type PropsWithChildren, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 import {
 	type AuthTokens,
@@ -21,18 +22,21 @@ export function SessionProvider({ children }: PropsWithChildren) {
 		() => getAccessTokenSync() !== null,
 	);
 
-	async function signIn(tokens: AuthTokens) {
+	const signIn = useCallback(async (tokens: AuthTokens) => {
 		await saveTokens(tokens);
 		setIsSignedIn(true);
-	}
+	}, []);
 
-	async function signOut() {
+	const signOut = useCallback(async () => {
 		await clearTokens();
 		queryClient.clear();
 		setIsSignedIn(false);
-	}
+	}, []);
 
-	const value: SessionContextValue = { isSignedIn, signIn, signOut };
+	const value = useMemo<SessionContextValue>(
+		() => ({ isSignedIn, signIn, signOut }),
+		[isSignedIn, signIn, signOut],
+	);
 
 	return <SessionContext value={value}>{children}</SessionContext>;
 }
