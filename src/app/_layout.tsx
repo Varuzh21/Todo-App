@@ -41,7 +41,7 @@ function RootNavigator() {
 				<Stack.Screen name='(app)' />
 			</Stack.Protected>
 
-			<Stack.Protected guard={!isSignedIn} redirectTo='/menu'>
+			<Stack.Protected guard={!isSignedIn} redirectTo='/'>
 				<Stack.Screen name='(auth)' />
 			</Stack.Protected>
 		</Stack>
