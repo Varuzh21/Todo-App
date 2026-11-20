@@ -1,12 +1,12 @@
 import { Tabs } from 'expo-router';
 
-import { PALETTE } from '@/shared/config/theme';
 import {
 	CalendarIcon,
 	MenuIcon,
 	ProfileIcon,
 	TaskIcon,
 } from '@/shared/ui/icons';
+import { TabBar } from '@/widgets/tab-bar';
 
 export const unstable_settings = {
 	anchor: 'index',
@@ -16,11 +16,8 @@ export default function AppLayout() {
 	return (
 		<Tabs
 			backBehavior='initialRoute'
-			screenOptions={{
-				headerShown: false,
-				tabBarActiveTintColor: PALETTE.primary,
-				tabBarInactiveTintColor: PALETTE.neutral40,
-			}}
+			tabBar={props => <TabBar {...props} />}
+			screenOptions={{ headerShown: false }}
 		>
 			<Tabs.Screen
 				name='index'
