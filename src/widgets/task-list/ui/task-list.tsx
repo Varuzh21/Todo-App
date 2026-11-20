@@ -1,12 +1,7 @@
+import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import {
-	ActivityIndicator,
-	FlatList,
-	type ListRenderItem,
-	StyleSheet,
-	View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import {
 	isTaskInStatus,
@@ -31,6 +26,10 @@ const renderTask: ListRenderItem<Task> = ({ item }) => (
 	<TaskCard title={item.title} isCompleted={item.isCompleted} />
 );
 
+function TaskSeparator() {
+	return <View style={styles.separator} />;
+}
+
 export function TaskList({ status }: TaskListProps) {
 	const selectByStatus = useCallback(
 		(tasks: Task[]) => tasks.filter(task => isTaskInStatus(task, status)),
@@ -44,26 +43,35 @@ export function TaskList({ status }: TaskListProps) {
 
 	if (isPending) {
 		return (
-			<View style={styles.loader}>
+			<View style={styles.screen}>
 				<ActivityIndicator color={PALETTE.primary} />
 			</View>
 		);
 	}
 
+	if (!tasks?.length) {
+		return (
+			<View style={styles.screen}>
+				<EmptyState message='Nothing to show here' />
+			</View>
+		);
+	}
+
 	return (
-		<FlatList
+		<FlashList
 			data={tasks}
 			keyExtractor={getTaskKey}
 			renderItem={renderTask}
-			ListEmptyComponent={<EmptyState message='Nothing to show here' />}
+			ItemSeparatorComponent={TaskSeparator}
 			style={styles.list}
 			contentContainerStyle={styles.content}
+			showsVerticalScrollIndicator={false}
 		/>
 	);
 }
 
 const styles = StyleSheet.create({
-	loader: {
+	screen: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -74,8 +82,9 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.background,
 	},
 	content: {
-		flexGrow: 1,
-		gap: 20,
 		padding: 20,
+	},
+	separator: {
+		height: 20,
 	},
 });
