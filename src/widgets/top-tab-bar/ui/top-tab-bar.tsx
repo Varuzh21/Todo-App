@@ -13,7 +13,16 @@ export function TopTabBar({
 	insets,
 }: MaterialTopTabBarProps) {
 	return (
-		<View style={[styles.container, { paddingTop: insets.top }]}>
+		<View
+			style={[
+				styles.container,
+				{
+					paddingTop: insets.top,
+					paddingLeft: insets.left,
+					paddingRight: insets.right,
+				},
+			]}
+		>
 			<View role='tablist' style={styles.tabs}>
 				{state.routes.map((route, index) => {
 					const { options } = descriptors[route.key];

@@ -16,7 +16,11 @@ export function TabBar({
 	navigateToTab,
 }: BottomTabBarProps) {
 	return (
-		<SafeAreaView edges={['bottom']} role='tablist' style={styles.container}>
+		<SafeAreaView
+			edges={['bottom', 'left', 'right']}
+			role='tablist'
+			style={styles.container}
+		>
 			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key];
 				const isFocused = index === state.index;

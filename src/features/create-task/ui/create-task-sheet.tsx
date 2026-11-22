@@ -4,6 +4,7 @@ import {
 } from '@expo/ui/community/bottom-sheet';
 import { Fragment, useRef } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PALETTE } from '@/shared/config/theme';
 import { PlusIcon } from '@/shared/ui/icons';
@@ -12,8 +13,11 @@ import { useCreateTask } from '../model/use-create-task';
 import { CreateTaskForm } from './create-task-form';
 import { CreateTaskSuccess } from './create-task-success';
 
+const ADD_BUTTON_OFFSET = 20;
+
 export function CreateTaskSheet() {
 	const sheetRef = useRef<BottomSheetModal>(null);
+	const insets = useSafeAreaInsets();
 	const { createTask, isPending, isSuccess, reset, serverError } =
 		useCreateTask();
 
@@ -32,7 +36,7 @@ export function CreateTaskSheet() {
 				accessibilityLabel='Create a task'
 				android_disableSound
 				onPress={openSheet}
-				style={styles.addButton}
+				style={[styles.addButton, { right: insets.right + ADD_BUTTON_OFFSET }]}
 			>
 				<PlusIcon color={PALETTE.white} />
 			</Pressable>
@@ -57,8 +61,7 @@ export function CreateTaskSheet() {
 const styles = StyleSheet.create({
 	addButton: {
 		position: 'absolute',
-		right: 20,
-		bottom: 20,
+		bottom: ADD_BUTTON_OFFSET,
 		width: 56,
 		height: 56,
 		alignItems: 'center',
