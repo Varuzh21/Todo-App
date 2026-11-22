@@ -81,7 +81,7 @@ Current slices:
 
 | Layer      | Slices                                                                                                                                                                                                                            |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `screens`  | `welcome`, `sign-in`, `menu`, `task` (3 top-tab screens), `calendar`, `profile`                                                                                                                                                   |
+| `screens`  | `welcome`, `sign-in`, `menu` (home dashboard), `task` (3 top-tab screens), `calendar`, `profile` (with Sign Out)                                                                                                                  |
 | `widgets`  | `tab-bar` (custom bottom tabs), `top-tab-bar` (custom top tabs), `task-list`, `calendar` (Day/Week/Month tabs, month grid)                                                                                                        |
 | `features` | `auth` (sign-in form, sign-out button), `create-task` (FAB, `useCreateTaskSheet`, sheet, form with due date, success view), `toggle-task` (`ToggleTaskCard`: tap to complete/undo), `edit-profile` (profile form, save to device) |
 | `entities` | `session` (signed-in state, `useUserId`), `task` (schema, AsyncStorage, queries, `TaskCard`), `user` (`/auth/me`, local profile, `userQueries.profile`)                                                                           |
@@ -105,7 +105,7 @@ src/app/
 │   ├── welcome.tsx
 │   └── sign-in.tsx
 └── (app)/                Tabs with custom TabBar, anchor 'index', backBehavior 'initialRoute'
-    ├── index.tsx         Menu tab  ("/")
+    ├── index.tsx         Menu tab  ("/"): home dashboard
     ├── task/             TopTabs with custom TopTabBar + CreateTaskSheet overlay
     │   ├── index.tsx     Behind Schedule ("/task")
     │   ├── upcoming.tsx
@@ -177,6 +177,7 @@ src/app/
 
 - Tasks live only on the device: no sync, no backup, and they stay after sign-out (per user id). DummyJSON todos are not used.
 - Tasks can be completed (tap a card to toggle) but not edited or deleted yet.
+- Menu tab = home dashboard: greeting, today's progress, Behind/Today/Upcoming/Completed counts (cards link to the Task tabs and Calendar) and today's tasks, all from one `select` over the cached task list (`screens/menu/model/use-task-summary.ts`).
 - Profile: no photo change, side menu, or bell/settings actions yet; edits are saved on the device only.
 - Create-task form has a title and a date (Category, Times, Reminder, Repeat from the design are not built).
 - Users signed in before the user id was stored are signed out once and must sign in again.

@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserId } from '@/entities/session';
 import { userQueries } from '@/entities/user';
+import { SignOutButton } from '@/features/auth';
 import { EditProfileForm } from '@/features/edit-profile';
 import { COLORS, PALETTE } from '@/shared/config/theme';
 import { Button } from '@/shared/ui/button';
@@ -56,24 +57,28 @@ export function ProfileScreen() {
 					},
 				]}
 			>
-				{isPending && <ActivityIndicator color={PALETTE.primary} />}
+				<View>
+					{isPending && <ActivityIndicator color={PALETTE.primary} />}
 
-				{isError && !profile && (
-					<View style={styles.error}>
-						<EmptyState message="Couldn't load your profile" />
-						<Button label='Try Again' onPress={() => refetch()} />
-					</View>
-				)}
+					{isError && !profile && (
+						<View style={styles.error}>
+							<EmptyState message="Couldn't load your profile" />
+							<Button label='Try Again' onPress={() => refetch()} />
+						</View>
+					)}
 
-				{profile && (
-					<EditProfileForm
-						userId={userId}
-						profile={profile}
-						isEditing={isEditing}
-						onEdit={startEditing}
-						onSaved={stopEditing}
-					/>
-				)}
+					{profile && (
+						<EditProfileForm
+							userId={userId}
+							profile={profile}
+							isEditing={isEditing}
+							onEdit={startEditing}
+							onSaved={stopEditing}
+						/>
+					)}
+				</View>
+
+				{!isEditing && <SignOutButton />}
 			</View>
 		</ScrollView>
 	);
@@ -89,6 +94,8 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		flex: 1,
+		justifyContent: 'space-between',
+		gap: 32,
 		paddingVertical: 24,
 	},
 	error: {

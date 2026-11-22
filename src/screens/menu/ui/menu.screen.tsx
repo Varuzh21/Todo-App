@@ -1,44 +1,88 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { FlashList, type ListRenderItem } from '@shopify/flash-list';
+import { useQuery } from '@tanstack/react-query';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { SignOutButton } from '@/features/auth';
+import { useUserId } from '@/entities/session';
+import type { Task } from '@/entities/task';
+import { userQueries } from '@/entities/user';
+import { CreateTaskSheet, useCreateTaskSheet } from '@/features/create-task';
+import { ToggleTaskCard } from '@/features/toggle-task';
 import { COLORS } from '@/shared/config/theme';
-import { Wrapper } from '@/shared/ui/wrapper';
+
+import { useTaskSummary } from '../model/use-task-summary';
+import { DashboardHeader } from './dashboard-header';
+import { DashboardListEmpty } from './dashboard-list-empty';
+import { DashboardOverview } from './dashboard-overview';
+
+const SCREEN_PADDING = 20;
+
+const NO_CONTENT_ANCHORING = { disabled: true };
+
+function getTaskKey(task: Task) {
+	return task.id;
+}
+
+const renderTask: ListRenderItem<Task> = ({ item }) => (
+	<ToggleTaskCard task={item} />
+);
+
+function TaskSeparator() {
+	return <View style={styles.separator} />;
+}
+
+function getFirstName(fullName: string | undefined) {
+	return fullName?.trim().split(/\s+/)[0] || null;
+}
 
 export function MenuScreen() {
+	const userId = useUserId();
+	const { sheetRef, openSheet } = useCreateTaskSheet();
+	const { data: summary, isPending } = useTaskSummary(userId);
+	const { data: profile } = useQuery(userQueries.profile(userId));
+
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={styles.content}>
-				<Text style={styles.title}>Todo App</Text>
-				<Text style={styles.description}>FSD structure is ready.</Text>
+		<SafeAreaView edges={['top', 'left', 'right']} style={styles.screen}>
+			<View style={styles.header}>
+				<DashboardHeader firstName={getFirstName(profile?.fullName)} />
 			</View>
-			<Wrapper>
-				<SignOutButton />
-			</Wrapper>
+
+			<CreateTaskSheet sheetRef={sheetRef} />
+
+			<FlashList
+				data={summary?.todayTasks ?? []}
+				keyExtractor={getTaskKey}
+				renderItem={renderTask}
+				ItemSeparatorComponent={TaskSeparator}
+				maintainVisibleContentPosition={NO_CONTENT_ANCHORING}
+				ListHeaderComponent={
+					summary && (
+						<DashboardOverview summary={summary} onAddTask={openSheet} />
+					)
+				}
+				ListEmptyComponent={<DashboardListEmpty isPending={isPending} />}
+				contentContainerStyle={styles.listContent}
+				showsVerticalScrollIndicator={false}
+			/>
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	screen: {
 		flex: 1,
 		backgroundColor: COLORS.background,
 	},
-	content: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
+	header: {
+		paddingHorizontal: SCREEN_PADDING,
+		paddingTop: 12,
+		paddingBottom: 20,
 	},
-	title: {
-		fontSize: 32,
-		lineHeight: 44,
-		fontWeight: 600,
-		color: COLORS.text,
+	listContent: {
+		paddingHorizontal: SCREEN_PADDING,
+		paddingBottom: SCREEN_PADDING,
 	},
-	description: {
-		fontSize: 16,
-		lineHeight: 24,
-		fontWeight: 500,
-		color: COLORS.textSecondary,
+	separator: {
+		height: 16,
 	},
 });
