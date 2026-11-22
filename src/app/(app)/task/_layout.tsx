@@ -1,7 +1,11 @@
 import { TopTabs } from 'expo-router/js-top-tabs';
 import { StyleSheet, View } from 'react-native';
 
-import { CreateTaskSheet } from '@/features/create-task';
+import {
+	CreateTaskFab,
+	CreateTaskSheet,
+	useCreateTaskSheet,
+} from '@/features/create-task';
 import { TopTabBar } from '@/widgets/top-tab-bar';
 
 export const unstable_settings = {
@@ -9,6 +13,8 @@ export const unstable_settings = {
 };
 
 export default function TaskLayout() {
+	const { sheetRef, openSheet } = useCreateTaskSheet();
+
 	return (
 		<View style={styles.container}>
 			<TopTabs
@@ -19,7 +25,8 @@ export default function TaskLayout() {
 				<TopTabs.Screen name='upcoming' options={{ title: 'Upcoming' }} />
 				<TopTabs.Screen name='completed' options={{ title: 'Completed' }} />
 			</TopTabs>
-			<CreateTaskSheet />
+			<CreateTaskFab onPress={openSheet} />
+			<CreateTaskSheet sheetRef={sheetRef} />
 		</View>
 	);
 }

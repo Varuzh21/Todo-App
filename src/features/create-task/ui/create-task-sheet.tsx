@@ -2,73 +2,57 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@expo/ui/community/bottom-sheet';
-import { Fragment, useRef } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { RefObject } from 'react';
+import { StyleSheet } from 'react-native';
 
-import { PALETTE } from '@/shared/config/theme';
-import { PlusIcon } from '@/shared/ui/icons';
+import { useUserId } from '@/entities/session';
+import { toDateKey } from '@/shared/lib/date';
 
 import { useCreateTask } from '../model/use-create-task';
+import type { CreateTaskValues } from '../schema/create-task.schema';
 import { CreateTaskForm } from './create-task-form';
 import { CreateTaskSuccess } from './create-task-success';
 
-const ADD_BUTTON_OFFSET = 20;
+interface CreateTaskSheetProps {
+	sheetRef: RefObject<BottomSheetModal | null>;
+	defaultDueDate?: Date;
+}
 
-export function CreateTaskSheet() {
-	const sheetRef = useRef<BottomSheetModal>(null);
-	const insets = useSafeAreaInsets();
-	const { createTask, isPending, isSuccess, reset, serverError } =
-		useCreateTask();
-
-	function openSheet() {
-		sheetRef.current?.present();
-	}
+export function CreateTaskSheet({
+	sheetRef,
+	defaultDueDate = new Date(),
+}: CreateTaskSheetProps) {
+	const userId = useUserId();
+	const { createTask, isPending, isSuccess, isError, reset } = useCreateTask();
 
 	function closeSheet() {
 		sheetRef.current?.dismiss();
 	}
 
-	return (
-		<Fragment>
-			<Pressable
-				role='button'
-				accessibilityLabel='Create a task'
-				android_disableSound
-				onPress={openSheet}
-				style={[styles.addButton, { right: insets.right + ADD_BUTTON_OFFSET }]}
-			>
-				<PlusIcon color={PALETTE.white} />
-			</Pressable>
+	function handleSubmit(values: CreateTaskValues) {
+		createTask({ ...values, userId });
+	}
 
-			<BottomSheetModal ref={sheetRef} enablePanDownToClose onDismiss={reset}>
-				<BottomSheetView style={styles.sheetContent}>
-					{isSuccess ? (
-						<CreateTaskSuccess onProceed={closeSheet} />
-					) : (
-						<CreateTaskForm
-							isPending={isPending}
-							serverError={serverError}
-							onSubmit={createTask}
-						/>
-					)}
-				</BottomSheetView>
-			</BottomSheetModal>
-		</Fragment>
+	return (
+		<BottomSheetModal ref={sheetRef} enablePanDownToClose onDismiss={reset}>
+			<BottomSheetView style={styles.sheetContent}>
+				{isSuccess ? (
+					<CreateTaskSuccess onProceed={closeSheet} />
+				) : (
+					<CreateTaskForm
+						key={toDateKey(defaultDueDate)}
+						defaultDueDate={defaultDueDate}
+						isPending={isPending}
+						isError={isError}
+						onSubmit={handleSubmit}
+					/>
+				)}
+			</BottomSheetView>
+		</BottomSheetModal>
 	);
 }
 
 const styles = StyleSheet.create({
-	addButton: {
-		position: 'absolute',
-		bottom: ADD_BUTTON_OFFSET,
-		width: 56,
-		height: 56,
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 28,
-		backgroundColor: PALETTE.primary,
-	},
 	sheetContent: {
 		width: '100%',
 		paddingHorizontal: 20,

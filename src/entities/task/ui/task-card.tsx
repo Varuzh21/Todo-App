@@ -1,23 +1,35 @@
 import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
 
 import type { Task } from '../model/task-schema';
 
-interface TaskCardProps extends Pick<Task, 'title' | 'isCompleted'> {}
+interface TaskCardProps extends Pick<Task, 'title' | 'isCompleted'> {
+	onPress?: () => void;
+}
 
 export const TaskCard = memo(function TaskCard({
 	title,
 	isCompleted,
+	onPress,
 }: TaskCardProps) {
 	return (
-		<View style={styles.card}>
+		<Pressable
+			role='checkbox'
+			accessibilityLabel={title}
+			accessibilityState={{ checked: isCompleted }}
+			disabled={!onPress}
+			onPress={onPress}
+			style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+		>
 			<View
 				style={[styles.checkbox, isCompleted && styles.checkboxCompleted]}
 			/>
-			<Text style={styles.title}>{title}</Text>
-		</View>
+			<Text style={[styles.title, isCompleted && styles.titleCompleted]}>
+				{title}
+			</Text>
+		</Pressable>
 	);
 });
 
@@ -32,6 +44,9 @@ const styles = StyleSheet.create({
 		borderColor: PALETTE.grayLight,
 		borderRadius: 8,
 		backgroundColor: PALETTE.white,
+	},
+	cardPressed: {
+		opacity: 0.7,
 	},
 	checkbox: {
 		width: 20,
@@ -49,5 +64,9 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.galanoRegular,
 		fontSize: 14,
 		color: COLORS.text,
+	},
+	titleCompleted: {
+		color: COLORS.textSecondary,
+		textDecorationLine: 'line-through',
 	},
 });

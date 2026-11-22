@@ -1,17 +1,29 @@
-import { taskSchema } from '@/entities/task';
-import { api } from '@/shared/api';
+import { readTasks, type Task, writeTasks } from '@/entities/task';
 
-type CreateTaskInput = {
-	title: string;
-	userId: number;
-};
+type CreateTaskInput = Pick<Task, 'title' | 'dueDate' | 'userId'>;
 
-export async function createTask({ title, userId }: CreateTaskInput) {
-	const { data } = await api.post('/todos/add', {
-		todo: title,
-		completed: false,
-		userId,
-	});
+const ID_RADIX = 36;
+const RANDOM_ID_LENGTH = 8;
 
-	return taskSchema.parse(data);
+function createTaskId() {
+	const timePart = Date.now().toString(ID_RADIX);
+	const randomPart = Math.random()
+		.toString(ID_RADIX)
+		.slice(2, 2 + RANDOM_ID_LENGTH);
+
+	return `${timePart}-${randomPart}`;
+}
+
+export async function createTask(input: CreateTaskInput) {
+	const task: Task = {
+		...input,
+		id: createTaskId(),
+		isCompleted: false,
+		createdAt: new Date().toISOString(),
+	};
+	const tasks = await readTasks(input.userId);
+
+	await writeTasks(input.userId, [task, ...tasks]);
+
+	return task;
 }

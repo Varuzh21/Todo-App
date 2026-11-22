@@ -4,38 +4,53 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 import {
 	type AuthTokens,
 	clearTokens,
+	clearUserId,
 	getAccessTokenSync,
+	getUserIdSync,
 	queryClient,
 	saveTokens,
+	saveUserId,
 } from '@/shared/api';
+
+export type SignInPayload = AuthTokens & { userId: number };
 
 type SessionContextValue = {
 	isSignedIn: boolean;
-	signIn: (tokens: AuthTokens) => Promise<void>;
+	userId: number | null;
+	signIn: (payload: SignInPayload) => Promise<void>;
 	signOut: () => Promise<void>;
 };
 
 export const SessionContext = createContext<SessionContextValue | null>(null);
 
-export function SessionProvider({ children }: PropsWithChildren) {
-	const [isSignedIn, setIsSignedIn] = useState(
-		() => getAccessTokenSync() !== null,
-	);
+// Tasks are stored per user, so a session without a saved user id counts as signed out.
+function getStoredUserId() {
+	return getAccessTokenSync() === null ? null : getUserIdSync();
+}
 
-	const signIn = useCallback(async (tokens: AuthTokens) => {
-		await saveTokens(tokens);
-		setIsSignedIn(true);
-	}, []);
+export function SessionProvider({ children }: PropsWithChildren) {
+	const [userId, setUserId] = useState(getStoredUserId);
+	const isSignedIn = userId !== null;
+
+	const signIn = useCallback(
+		async ({ userId: signedInUserId, ...tokens }: SignInPayload) => {
+			await saveTokens(tokens);
+			await saveUserId(signedInUserId);
+			setUserId(signedInUserId);
+		},
+		[],
+	);
 
 	const signOut = useCallback(async () => {
 		await clearTokens();
+		await clearUserId();
 		queryClient.clear();
-		setIsSignedIn(false);
+		setUserId(null);
 	}, []);
 
 	const value = useMemo<SessionContextValue>(
-		() => ({ isSignedIn, signIn, signOut }),
-		[isSignedIn, signIn, signOut],
+		() => ({ isSignedIn, userId, signIn, signOut }),
+		[isSignedIn, userId, signIn, signOut],
 	);
 
 	return <SessionContext value={value}>{children}</SessionContext>;

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { taskQueries } from '@/entities/task/api/task-queries';
+import { taskQueries } from '../api/task-queries';
 
-export function useTasks() {
-	return useQuery(taskQueries.list());
+export function useTasks(userId: number) {
+	return useQuery(taskQueries.list(userId));
 }

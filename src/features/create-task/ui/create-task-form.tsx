@@ -11,20 +11,24 @@ import {
 	createTaskSchema,
 } from '../schema/create-task.schema';
 
+import { DueDateField } from './due-date-field';
+
 interface CreateTaskFormProps {
+	defaultDueDate: Date;
 	isPending: boolean;
-	serverError?: string;
+	isError: boolean;
 	onSubmit: (values: CreateTaskValues) => void;
 }
 
 export function CreateTaskForm({
+	defaultDueDate,
 	isPending,
-	serverError,
+	isError,
 	onSubmit,
 }: CreateTaskFormProps) {
 	return (
 		<Formik
-			initialValues={{ title: '' }}
+			initialValues={{ title: '', dueDate: defaultDueDate }}
 			validationSchema={toFormikValidationSchema(createTaskSchema)}
 			onSubmit={values => onSubmit(createTaskSchema.parse(values))}
 		>
@@ -35,6 +39,7 @@ export function CreateTaskForm({
 				handleChange,
 				handleBlur,
 				handleSubmit,
+				setFieldValue,
 			}) => {
 				const titleError = touched.title ? errors.title : undefined;
 
@@ -49,8 +54,14 @@ export function CreateTaskForm({
 								onBlur={handleBlur('title')}
 								error={titleError}
 							/>
-							{serverError && (
-								<Text style={styles.serverError}>{serverError}</Text>
+							<DueDateField
+								value={values.dueDate}
+								onChange={date => setFieldValue('dueDate', date)}
+							/>
+							{isError && (
+								<Text style={styles.error}>
+									Couldn't save the task. Try again.
+								</Text>
 							)}
 						</View>
 						<Button
@@ -78,7 +89,7 @@ const styles = StyleSheet.create({
 	fields: {
 		gap: 12,
 	},
-	serverError: {
+	error: {
 		fontFamily: FONTS.galanoRegular,
 		fontSize: 14,
 		color: PALETTE.danger,

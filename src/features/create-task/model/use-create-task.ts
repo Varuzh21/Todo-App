@@ -1,57 +1,39 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { isAxiosError } from 'axios';
 
-import { taskQueries } from '@/entities/task';
-import { userQueries } from '@/entities/user';
+import { TASK_STORAGE_MUTATION_SCOPE, taskQueries } from '@/entities/task';
+import { toDateKey } from '@/shared/lib/date';
 
 import { createTask } from '../api/create-task';
 import type { CreateTaskValues } from '../schema/create-task.schema';
+
+type CreateTaskVariables = CreateTaskValues & { userId: number };
 
 export function useCreateTask() {
 	const queryClient = useQueryClient();
 
 	const createTaskMutation = useMutation({
-		mutationFn: async ({ title }: CreateTaskValues) => {
-			const user = await queryClient.ensureQueryData(userQueries.me());
-
-			return createTask({ title, userId: user.id });
-		},
+		mutationFn: ({ title, dueDate, userId }: CreateTaskVariables) =>
+			createTask({ title, dueDate: toDateKey(dueDate), userId }),
+		networkMode: 'always',
+		scope: TASK_STORAGE_MUTATION_SCOPE,
 		onSuccess: newTask => {
-			queryClient.setQueryData(taskQueries.list().queryKey, tasks =>
-				tasks ? [newTask, ...tasks] : [newTask],
+			queryClient.setQueryData(
+				taskQueries.list(newTask.userId).queryKey,
+				tasks => (tasks ? [newTask, ...tasks] : undefined),
 			);
 		},
 		onError: error => {
-			if (!__DEV__) {
-				return;
+			if (__DEV__) {
+				console.warn('Create task failed', error.message);
 			}
-
-			if (!isAxiosError(error)) {
-				console.warn('Create task failed: unexpected error', error.message);
-				return;
-			}
-
-			if (!error.response) {
-				console.warn('Create task failed: network error', error.message);
-				return;
-			}
-
-			console.warn('Create task failed: API error', error.response.status);
 		},
 	});
-
-	const { error } = createTaskMutation;
-	const responseMessage = isAxiosError<{ message?: unknown }>(error)
-		? error.response?.data?.message
-		: undefined;
-	const serverError =
-		typeof responseMessage === 'string' ? responseMessage : undefined;
 
 	return {
 		createTask: createTaskMutation.mutate,
 		isPending: createTaskMutation.isPending,
 		isSuccess: createTaskMutation.isSuccess,
+		isError: createTaskMutation.isError,
 		reset: createTaskMutation.reset,
-		serverError,
 	};
 }

@@ -4,18 +4,24 @@ import { useCallback } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useUserId } from '@/entities/session';
 import {
 	isTaskInStatus,
 	type Task,
-	TaskCard,
 	type TaskStatus,
 	taskQueries,
 } from '@/entities/task';
+import { ToggleTaskCard } from '@/features/toggle-task';
 
 import { COLORS, PALETTE } from '@/shared/config/theme';
+import { toDateKey } from '@/shared/lib/date';
 import { EmptyState } from '@/shared/ui/empty-state';
 
 const LIST_PADDING = 20;
+
+// FlashList v2 anchors the visible items by default (built for chat). New tasks
+// are prepended, so anchoring would push them above the viewport.
+const NO_CONTENT_ANCHORING = { disabled: true };
 
 interface TaskListProps {
 	status: TaskStatus;
@@ -26,7 +32,7 @@ function getTaskKey(task: Task) {
 }
 
 const renderTask: ListRenderItem<Task> = ({ item }) => (
-	<TaskCard title={item.title} isCompleted={item.isCompleted} />
+	<ToggleTaskCard task={item} />
 );
 
 function TaskSeparator() {
@@ -35,13 +41,17 @@ function TaskSeparator() {
 
 export function TaskList({ status }: TaskListProps) {
 	const insets = useSafeAreaInsets();
+	const userId = useUserId();
+	const todayKey = toDateKey(new Date());
+
 	const selectByStatus = useCallback(
-		(tasks: Task[]) => tasks.filter(task => isTaskInStatus(task, status)),
-		[status],
+		(tasks: Task[]) =>
+			tasks.filter(task => isTaskInStatus(task, status, todayKey)),
+		[status, todayKey],
 	);
 
 	const { data: tasks, isPending } = useQuery({
-		...taskQueries.list(),
+		...taskQueries.list(userId),
 		select: selectByStatus,
 	});
 
@@ -67,6 +77,7 @@ export function TaskList({ status }: TaskListProps) {
 			keyExtractor={getTaskKey}
 			renderItem={renderTask}
 			ItemSeparatorComponent={TaskSeparator}
+			maintainVisibleContentPosition={NO_CONTENT_ANCHORING}
 			style={styles.list}
 			contentContainerStyle={{
 				paddingVertical: LIST_PADDING,
