@@ -63,6 +63,7 @@ bunx eas-cli <command>        # EAS CLI
 
 - Profiles in `eas.json`: `development`, `development-simulator`, `preview`, `production` (with `environment: production`). `appVersionSource: remote`.
 - Workflows in `.eas/workflows/`: `create-development-builds.yml`, `publish-preview-update.yml` (OTA update on push, branch = `github.ref_name`), `deploy-to-production.yml` (on push to `main`: fingerprint → reuse build + OTA update, or build + submit).
+- `runtimeVersion` uses the **`fingerprint`** policy: an OTA update only reaches builds with the same native fingerprint, so adding a native module never sends new JS to an old binary. The production workflow uses the built-in `type: fingerprint` job (not a custom script) and validates with `bunx eas-cli@latest workflow:validate .eas/workflows/<file>.yml --non-interactive`.
 - iOS device builds need a paid Apple Developer account and credentials (`bunx eas-cli credentials -p ios`); the simulator profile does not.
 
 ## Architecture: Feature-Sliced Design
