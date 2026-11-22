@@ -38,49 +38,51 @@ export function ProfileScreen() {
 	}
 
 	return (
-		<ScrollView
-			style={styles.screen}
-			contentContainerStyle={styles.scrollContent}
-			alwaysBounceVertical={false}
-			keyboardShouldPersistTaps='handled'
-			automaticallyAdjustKeyboardInsets
-			showsVerticalScrollIndicator={false}
-		>
+		<View style={styles.screen}>
 			<ProfileHeader imageUrl={profile?.imageUrl ?? null} />
 
-			<View
-				style={[
-					styles.content,
-					{
-						paddingLeft: insets.left + SCREEN_PADDING,
-						paddingRight: insets.right + SCREEN_PADDING,
-					},
-				]}
+			<ScrollView
+				style={styles.form}
+				contentContainerStyle={styles.scrollContent}
+				alwaysBounceVertical={false}
+				keyboardShouldPersistTaps='handled'
+				automaticallyAdjustKeyboardInsets
+				showsVerticalScrollIndicator={false}
 			>
-				<View>
-					{isPending && <ActivityIndicator color={PALETTE.primary} />}
+				<View
+					style={[
+						styles.content,
+						{
+							paddingLeft: insets.left + SCREEN_PADDING,
+							paddingRight: insets.right + SCREEN_PADDING,
+						},
+					]}
+				>
+					<View>
+						{isPending && <ActivityIndicator color={PALETTE.primary} />}
 
-					{isError && !profile && (
-						<View style={styles.error}>
-							<EmptyState message="Couldn't load your profile" />
-							<Button label='Try Again' onPress={() => refetch()} />
-						</View>
-					)}
+						{isError && !profile && (
+							<View style={styles.error}>
+								<EmptyState message="Couldn't load your profile" />
+								<Button label='Try Again' onPress={() => refetch()} />
+							</View>
+						)}
 
-					{profile && (
-						<EditProfileForm
-							userId={userId}
-							profile={profile}
-							isEditing={isEditing}
-							onEdit={startEditing}
-							onSaved={stopEditing}
-						/>
-					)}
+						{profile && (
+							<EditProfileForm
+								userId={userId}
+								profile={profile}
+								isEditing={isEditing}
+								onEdit={startEditing}
+								onSaved={stopEditing}
+							/>
+						)}
+					</View>
+
+					{!isEditing && <SignOutButton />}
 				</View>
-
-				{!isEditing && <SignOutButton />}
-			</View>
-		</ScrollView>
+			</ScrollView>
+		</View>
 	);
 }
 
@@ -88,6 +90,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		backgroundColor: COLORS.background,
+	},
+	form: {
+		flex: 1,
 	},
 	scrollContent: {
 		flexGrow: 1,
