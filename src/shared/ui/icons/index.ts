@@ -1,4 +1,5 @@
 export { CalendarIcon } from './ui/calendar-icon';
+export { ChevronDownIcon } from './ui/chevron-down-icon';
 export { ChevronLeftIcon } from './ui/chevron-left-icon';
 export { ChevronRightIcon } from './ui/chevron-right-icon';
 export { EyeClosedIcon } from './ui/eye-closed-icon';

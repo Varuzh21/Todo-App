@@ -4,14 +4,13 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
 import { Button } from '@/shared/ui/button';
+import { DateField } from '@/shared/ui/date-field';
 import { Input } from '@/shared/ui/input';
 
 import {
 	type CreateTaskValues,
 	createTaskSchema,
 } from '../schema/create-task.schema';
-
-import { DueDateField } from './due-date-field';
 
 interface CreateTaskFormProps {
 	defaultDueDate: Date;
@@ -54,7 +53,8 @@ export function CreateTaskForm({
 								onBlur={handleBlur('title')}
 								error={titleError}
 							/>
-							<DueDateField
+							<DateField
+								label='Date'
 								value={values.dueDate}
 								onChange={date => setFieldValue('dueDate', date)}
 							/>

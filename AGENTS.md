@@ -79,13 +79,13 @@ src/
 
 Current slices:
 
-| Layer      | Slices                                                                                                                                                                             |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `screens`  | `welcome`, `sign-in`, `menu`, `task` (3 top-tab screens), `calendar`, `profile`                                                                                                    |
-| `widgets`  | `tab-bar` (custom bottom tabs), `top-tab-bar` (custom top tabs), `task-list`, `calendar` (Day/Week/Month tabs, month grid)                                                         |
-| `features` | `auth` (sign-in form, sign-out button), `create-task` (FAB, `useCreateTaskSheet`, sheet, form with due date, success view), `toggle-task` (`ToggleTaskCard`: tap to complete/undo) |
-| `entities` | `session` (signed-in state, `useUserId`), `task` (schema, AsyncStorage, queries, `TaskCard`), `user` (`/auth/me`, unused)                                                          |
-| `shared`   | `api` (axios, query client, token storage), `config` (theme, fonts), `lib/date` (`toDateKey`), `ui` (Button, Input, …, icons)                                                      |
+| Layer      | Slices                                                                                                                                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `screens`  | `welcome`, `sign-in`, `menu`, `task` (3 top-tab screens), `calendar`, `profile`                                                                                                                                                   |
+| `widgets`  | `tab-bar` (custom bottom tabs), `top-tab-bar` (custom top tabs), `task-list`, `calendar` (Day/Week/Month tabs, month grid)                                                                                                        |
+| `features` | `auth` (sign-in form, sign-out button), `create-task` (FAB, `useCreateTaskSheet`, sheet, form with due date, success view), `toggle-task` (`ToggleTaskCard`: tap to complete/undo), `edit-profile` (profile form, save to device) |
+| `entities` | `session` (signed-in state, `useUserId`), `task` (schema, AsyncStorage, queries, `TaskCard`), `user` (`/auth/me`, local profile, `userQueries.profile`)                                                                           |
+| `shared`   | `api` (axios, query client, token storage), `config` (theme, fonts), `lib/date` (`toDateKey`), `ui` (Button, Input, DateField, …, icons)                                                                                          |
 
 Rules:
 
@@ -135,6 +135,7 @@ src/app/
 - Each entity defines a **key factory with `queryOptions`** in `api/` (e.g. `taskQueries.all()`, `taskQueries.list()`, `userQueries.me()`). Reuse it for `useQuery`, `setQueryData`, `invalidateQueries`, `ensureQueryData`.
 - Query/mutation functions go through `api`, pass TanStack's `signal`, and **validate responses with Zod** (axios `data` is `any`).
 - **Tasks are local.** `entities/task/api/task-storage.ts` reads/writes one JSON list per user (`tasks.user-<id>`), validated with Zod on read. `taskQueries.list(userId)` and the create mutation use `networkMode: 'always'` — the default `'online'` would pause them offline. After a write, update the list with `setQueryData` (return `undefined` when the list isn't loaded). Every task mutation uses `scope: TASK_STORAGE_MUTATION_SCOPE` so read-modify-write saves run one at a time.
+- **Profile:** `userQueries.profile(userId)` returns the profile saved on the device (`profile.user-<id>`) or, the first time, builds it from `/auth/me` (`networkMode: 'offlineFirst'`). Save Changes writes it locally only — DummyJSON's update endpoint does not persist.
 - Due dates are local calendar days stored as `yyyy-MM-dd` (`toDateKey` / `fromDateKey` in `shared/lib/date`); string comparison orders them. Status: Behind Schedule = not completed and due before today, Upcoming = not completed and due today or later, Completed = completed.
 - Derive per-view data with `select` (wrapped in `useCallback`), e.g. `TaskList` filters one cached list per tab.
 - Mutation hooks (`use-sign-in.ts` for the API, `use-create-task.ts` is local):
@@ -159,7 +160,9 @@ src/app/
 - Icons are TSX components in `shared/ui/icons` using `currentColor`; pass `color`. Tab icons are named after their tabs (`MenuIcon`, `TaskIcon`, …).
 - Lists: **FlashList v2**. `contentContainerStyle` accepts only padding/background → use `ItemSeparatorComponent` for spacing and render empty states outside the list. v2 enables `maintainVisibleContentPosition` by default, which keeps items prepended at index 0 above the viewport — task lists pass `{ disabled: true }`. Keep `renderItem`/`keyExtractor` at module level, `memo` the item, no `key` on the item root, no `useState` in recycled items (use `useRecyclingState`).
 - Bottom sheets: `BottomSheetModal` + `BottomSheetView` from `@expo/ui/community/bottom-sheet` (`ref.present()` / `dismiss()`, `enablePanDownToClose`, `onDismiss`). No providers needed. Native background can't be customized. Open the create-task sheet with `useCreateTaskSheet()` (`openSheet` for any button, `sheetRef` for `<CreateTaskSheet>`); a render prop that calls `openSheet` during render breaks Biome's React Compiler rule.
-- Date picker: `DateTimePicker` from `@expo/ui/community/datetime-picker`. iOS uses `display='compact'`; Android opens a dialog on mount, so `due-date-field.android.tsx` mounts it only while open.
+- Date picker: `shared/ui/DateField` wraps `DateTimePicker` from `@expo/ui/community/datetime-picker`. iOS uses `display='compact'`; Android opens a dialog on mount, so `date-field.android.tsx` mounts it only while open.
+- Dropdowns: use `MenuView` from `@expo/ui/community/menu` (native menu; give it `width: '100%'` or it shrinks to its content). `@expo/ui/community/picker` is a **wheel** on iOS and does not fit inside a field row.
+- Status bar per screen: tab screens stay mounted, so don't render `<StatusBar />` in a tab screen; use `setStatusBarStyle` in `useFocusEffect` and restore `'dark'` on blur (see `screens/profile/model/use-light-status-bar.ts`).
 - Safe area: screens touching the top edge use `SafeAreaView`; screens inside a navigator bar must not (double padding). Custom bars use the `insets` from their props. `<StatusBar style='dark' />` is set once in the root layout.
 - On Android, `Pressable` tab items use `android_disableSound`.
 
@@ -174,6 +177,7 @@ src/app/
 
 - Tasks live only on the device: no sync, no backup, and they stay after sign-out (per user id). DummyJSON todos are not used.
 - Tasks can be completed (tap a card to toggle) but not edited or deleted yet.
+- Profile: no photo change, side menu, or bell/settings actions yet; edits are saved on the device only.
 - Create-task form has a title and a date (Category, Times, Reminder, Repeat from the design are not built).
 - Users signed in before the user id was stored are signed out once and must sign in again.
 - Formik's last release is Nov 2025 and it has open React 19 issues; it works for the current forms.

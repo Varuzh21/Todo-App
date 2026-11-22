@@ -5,15 +5,26 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
 
-interface DueDateFieldProps {
+interface DateFieldProps {
+	label: string;
 	value: Date;
 	onChange: (date: Date) => void;
+	isDisabled?: boolean;
+	maximumDate?: Date;
 }
 
 const DISPLAY_FORMAT = 'MMM d, yyyy';
 
-export function DueDateField({ value, onChange }: DueDateFieldProps) {
+// Android shows the picker as a dialog that opens on mount, so it is mounted only while open.
+export function DateField({
+	label,
+	value,
+	onChange,
+	isDisabled = false,
+	maximumDate,
+}: DateFieldProps) {
 	const [isPickerOpen, setIsPickerOpen] = useState(false);
+	const displayValue = format(value, DISPLAY_FORMAT);
 
 	function openPicker() {
 		setIsPickerOpen(true);
@@ -32,18 +43,23 @@ export function DueDateField({ value, onChange }: DueDateFieldProps) {
 		<Fragment>
 			<Pressable
 				accessibilityRole='button'
-				accessibilityLabel={`Date, ${format(value, DISPLAY_FORMAT)}`}
+				accessibilityLabel={`${label}, ${displayValue}`}
+				accessibilityState={{ disabled: isDisabled }}
 				android_disableSound
+				disabled={isDisabled}
 				onPress={openPicker}
 				style={styles.field}
 			>
-				<Text style={styles.label}>Date</Text>
-				<Text style={styles.value}>{format(value, DISPLAY_FORMAT)}</Text>
+				<Text style={styles.label}>{label}</Text>
+				<Text style={[styles.value, isDisabled && styles.valueDisabled]}>
+					{displayValue}
+				</Text>
 			</Pressable>
 			{isPickerOpen && (
 				<DateTimePicker
 					value={value}
 					mode='date'
+					maximumDate={maximumDate}
 					accentColor={PALETTE.primary}
 					onValueChange={(_event, date) => handleValueChange(date)}
 					onDismiss={closePicker}
@@ -63,6 +79,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 8,
 		borderColor: PALETTE.grayLight,
+		backgroundColor: PALETTE.white,
 	},
 	label: {
 		fontFamily: FONTS.galanoRegular,
@@ -73,5 +90,8 @@ const styles = StyleSheet.create({
 		fontFamily: FONTS.galanoRegular,
 		fontSize: 14,
 		color: PALETTE.primary,
+	},
+	valueDisabled: {
+		color: COLORS.text,
 	},
 });

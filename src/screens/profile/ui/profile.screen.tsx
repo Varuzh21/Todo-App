@@ -1,27 +1,97 @@
-import { StyleSheet, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { COLORS } from '@/shared/config/theme';
+import { useUserId } from '@/entities/session';
+import { userQueries } from '@/entities/user';
+import { EditProfileForm } from '@/features/edit-profile';
+import { COLORS, PALETTE } from '@/shared/config/theme';
+import { Button } from '@/shared/ui/button';
+import { EmptyState } from '@/shared/ui/empty-state';
+
+import { useLightStatusBar } from '../model/use-light-status-bar';
+import { ProfileHeader } from './profile-header';
+
+const SCREEN_PADDING = 20;
 
 export function ProfileScreen() {
+	const userId = useUserId();
+	const insets = useSafeAreaInsets();
+	const [isEditing, setIsEditing] = useState(false);
+	const {
+		data: profile,
+		isPending,
+		isError,
+		refetch,
+	} = useQuery(userQueries.profile(userId));
+
+	useLightStatusBar();
+
+	function startEditing() {
+		setIsEditing(true);
+	}
+
+	function stopEditing() {
+		setIsEditing(false);
+	}
+
 	return (
-		<SafeAreaView style={styles.container}>
-			<Text style={styles.title}>Profile</Text>
-		</SafeAreaView>
+		<ScrollView
+			style={styles.screen}
+			contentContainerStyle={styles.scrollContent}
+			alwaysBounceVertical={false}
+			keyboardShouldPersistTaps='handled'
+			automaticallyAdjustKeyboardInsets
+			showsVerticalScrollIndicator={false}
+		>
+			<ProfileHeader imageUrl={profile?.imageUrl ?? null} />
+
+			<View
+				style={[
+					styles.content,
+					{
+						paddingLeft: insets.left + SCREEN_PADDING,
+						paddingRight: insets.right + SCREEN_PADDING,
+					},
+				]}
+			>
+				{isPending && <ActivityIndicator color={PALETTE.primary} />}
+
+				{isError && !profile && (
+					<View style={styles.error}>
+						<EmptyState message="Couldn't load your profile" />
+						<Button label='Try Again' onPress={() => refetch()} />
+					</View>
+				)}
+
+				{profile && (
+					<EditProfileForm
+						userId={userId}
+						profile={profile}
+						isEditing={isEditing}
+						onEdit={startEditing}
+						onSaved={stopEditing}
+					/>
+				)}
+			</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	screen: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
 		backgroundColor: COLORS.background,
 	},
-	title: {
-		fontSize: 32,
-		lineHeight: 44,
-		fontWeight: 600,
-		color: COLORS.text,
+	scrollContent: {
+		flexGrow: 1,
+	},
+	content: {
+		flex: 1,
+		paddingVertical: 24,
+	},
+	error: {
+		gap: 20,
 	},
 });
