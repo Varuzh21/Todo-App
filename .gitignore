@@ -45,5 +45,3 @@ example
 .vscode
 .idea
 
-.editorconfig
-bun.lock

@@ -1,6 +1,5 @@
 import Svg, { Path, type SvgProps } from 'react-native-svg';
 
-// Strokes use currentColor, so pass `color` to tint the icon.
 export function PlusIcon(props: SvgProps) {
 	return (
 		<Svg width={24} height={24} viewBox='0 0 24 24' fill='none' {...props}>
