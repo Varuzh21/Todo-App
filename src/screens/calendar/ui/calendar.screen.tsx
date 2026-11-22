@@ -11,11 +11,11 @@ import { COLORS, PALETTE } from '@/shared/config/theme';
 import { Button } from '@/shared/ui/button';
 import { PlusIcon, SearchIcon } from '@/shared/ui/icons';
 import { Input } from '@/shared/ui/input';
+import { ListEmpty } from '@/shared/ui/list-empty';
 import { Logo } from '@/shared/ui/logo';
 import { CalendarViewTabs, useCalendar } from '@/widgets/calendar';
 
 import { useCalendarTasks } from '../model/use-calendar-tasks';
-import { CalendarListEmpty } from './calendar-list-empty';
 import { CalendarListHeader } from './calendar-list-header';
 
 const SCREEN_PADDING = 20;
@@ -100,7 +100,10 @@ export function CalendarScreen() {
 					/>
 				}
 				ListEmptyComponent={
-					<CalendarListEmpty isPending={isPending} isSearching={isSearching} />
+					<ListEmpty
+						isPending={isPending}
+						message={isSearching ? 'No tasks found' : 'No tasks for this day'}
+					/>
 				}
 				contentContainerStyle={styles.listContent}
 				keyboardShouldPersistTaps='handled'

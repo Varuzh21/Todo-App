@@ -9,10 +9,10 @@ import { userQueries } from '@/entities/user';
 import { CreateTaskSheet, useCreateTaskSheet } from '@/features/create-task';
 import { ToggleTaskCard } from '@/features/toggle-task';
 import { COLORS } from '@/shared/config/theme';
+import { ListEmpty } from '@/shared/ui/list-empty';
 
 import { useTaskSummary } from '../model/use-task-summary';
 import { DashboardHeader } from './dashboard-header';
-import { DashboardListEmpty } from './dashboard-list-empty';
 import { DashboardOverview } from './dashboard-overview';
 
 const SCREEN_PADDING = 20;
@@ -60,7 +60,9 @@ export function MenuScreen() {
 						<DashboardOverview summary={summary} onAddTask={openSheet} />
 					)
 				}
-				ListEmptyComponent={<DashboardListEmpty isPending={isPending} />}
+				ListEmptyComponent={
+					<ListEmpty isPending={isPending} message='No tasks for today' />
+				}
 				contentContainerStyle={styles.listContent}
 				showsVerticalScrollIndicator={false}
 			/>

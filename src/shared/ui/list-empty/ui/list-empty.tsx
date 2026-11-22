@@ -2,20 +2,15 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 
 import { COLORS, FONTS, PALETTE } from '@/shared/config/theme';
 
-interface CalendarListEmptyProps {
+interface ListEmptyProps {
 	isPending: boolean;
-	isSearching: boolean;
+	message: string;
 }
 
-export function CalendarListEmpty({
-	isPending,
-	isSearching,
-}: CalendarListEmptyProps) {
+export function ListEmpty({ isPending, message }: ListEmptyProps) {
 	if (isPending) {
 		return <ActivityIndicator color={PALETTE.primary} />;
 	}
-
-	const message = isSearching ? 'No tasks found' : 'No tasks for this day';
 
 	return <Text style={styles.message}>{message}</Text>;
 }
