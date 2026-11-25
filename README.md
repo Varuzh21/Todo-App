@@ -1,56 +1,116 @@
-# Welcome to your Expo app 👋
+# Todo App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A to-do app for **iOS and Android**, built with Expo and React Native. Plan tasks by day, follow your progress on a dashboard, and browse tasks in a calendar. Tasks and profile edits are stored on the device, so they work offline.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Dashboard:** greeting, today's progress, task counts that link to the matching screen, and today's tasks.
+- **Tasks:** Behind Schedule, Upcoming and Completed tabs. Create a task with a due date, and tap a task to complete it or undo it.
+- **Calendar:** Day, Week and Month views, with search by title or date (`yyyy-MM-dd`).
+- **Profile:** view and edit your name, email, phone, gender and date of birth.
+- **Sign-in:** [DummyJSON](https://dummyjson.com/docs/auth) authentication with token refresh. Tokens are kept in the device's secure storage.
 
-   ```bash
-   npm install
-   ```
+## Tech stack
 
-2. Start the app
+| Area         | Library                                                         |
+| ------------ | --------------------------------------------------------------- |
+| App          | Expo SDK 58, React Native 0.88, React 19, TypeScript 6 (strict) |
+| Navigation   | Expo Router (typed routes, protected routes)                    |
+| Data         | TanStack Query v5, axios                                        |
+| Storage      | AsyncStorage (tasks, profile), SecureStore (tokens, user id)    |
+| Forms        | Formik, Zod v4                                                  |
+| Dates        | date-fns                                                        |
+| UI           | `@expo/ui` (native sheet, menu and date picker), FlashList v2   |
+| Code quality | Biome (lint and format), TypeScript                             |
 
-   ```bash
-   npx expo start
-   ```
+## Getting started
 
-In the output, you'll find options to open the app in a
+### Requirements
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Bun](https://bun.sh)
+- Node.js 22.13+, 24.3+ or 26+
+- Xcode for iOS, Android Studio for Android
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+No environment variables are needed.
 
-## Get a fresh project
+### Install and run
 
-When you're ready, run:
+The app uses native modules, so it runs in a [development build](https://docs.expo.dev/develop/development-builds/introduction/), **not in Expo Go**.
 
 ```bash
-npm run reset-project
+git clone https://github.com/Varuzh21/Todo-App.git
+cd Todo-App
+bun install
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Build and run the app:
 
-### Other setup steps
+```bash
+bun run ios      # iOS simulator
+bun run android  # Android emulator
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+After the first build, starting the dev server is enough:
 
-## Learn more
+```bash
+bun run start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Build again after adding or updating a package with native code.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Sign in
 
-## Join the community
+Use any [DummyJSON test user](https://dummyjson.com/users). Sign in with the **username**, not the email.
 
-Join our community of developers creating universal apps.
+## Scripts
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+| Command             | Description                       |
+| ------------------- | --------------------------------- |
+| `bun run start`     | Start the dev server              |
+| `bun run ios`       | Build and run on iOS              |
+| `bun run android`   | Build and run on Android          |
+| `bun run typecheck` | Check types                       |
+| `bun run check`     | Check linting and formatting      |
+| `bun run check:fix` | Fix linting and formatting issues |
+
+Install packages with `bunx expo install <package>`, so their versions match the Expo SDK.
+
+## Project structure
+
+The code follows [Feature-Sliced Design](https://feature-sliced.design). Imports only go down the list:
+
+```
+src/
+├── app/        Expo Router routes and layouts
+├── screens/    welcome, sign-in, menu, task, calendar, profile
+├── widgets/    tab bars, task list, calendar
+├── features/   auth, create-task, toggle-task, edit-profile
+├── entities/   session, task, user
+└── shared/     api, config, lib, ui, assets
+```
+
+Each slice has a public API in its `index.ts`. The architecture and conventions are described in [AGENTS.md](AGENTS.md).
+
+## How data works
+
+- **DummyJSON** is used for sign-in and to load the profile the first time.
+- **Tasks and profile edits** are saved on the device, separately for each user. They are not synced or backed up, and can be lost when the app is uninstalled.
+- **Due dates** are stored as calendar days (`yyyy-MM-dd`), so time zones never shift them.
+
+## Builds and deployment
+
+Builds and updates run on [EAS](https://docs.expo.dev/eas/). The workflows are in `.eas/workflows`:
+
+| Workflow                        | Runs on        | What it does                                                                                |
+| ------------------------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| `create-development-builds.yml` | Manual         | Creates development builds                                                                  |
+| `publish-preview-update.yml`    | Push           | Publishes an update to the branch of the same name                                          |
+| `deploy-to-production.yml`      | Push to `main` | Publishes an update when a compatible build exists, otherwise builds the app and submits it |
+
+Updates use the `fingerprint` runtime version, so they only reach builds with the same native code. iOS builds need an Apple Developer account, and store submissions need Apple and Google Play credentials.
+
+## Known limitations
+
+- Tasks can't be edited or deleted yet.
+- The profile photo can't be changed yet.
+- There are no automated tests yet.
