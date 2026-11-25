@@ -1,122 +1,116 @@
 # Todo App
 
-A modern, cross-platform mobile todo application built with React Native and TypeScript. The app helps users organize tasks, track progress, and manage their daily activities with an intuitive interface featuring authentication, local storage, and calendar integration.
+A to-do app for **iOS and Android**, built with Expo and React Native. Plan tasks by day, follow your progress on a dashboard, and browse tasks in a calendar. Tasks and profile edits are stored on the device, so they work offline.
 
+## Features
 
----
+- **Dashboard:** greeting, today's progress, task counts that link to the matching screen, and today's tasks.
+- **Tasks:** Behind Schedule, Upcoming and Completed tabs. Create a task with a due date, and tap a task to complete it or undo it.
+- **Calendar:** Day, Week and Month views, with search by title or date (`yyyy-MM-dd`).
+- **Profile:** view and edit your name, email, phone, gender and date of birth.
+- **Sign-in:** [DummyJSON](https://dummyjson.com/docs/auth) authentication with token refresh. Tokens are kept in the device's secure storage.
 
-## Overview
+## Tech stack
 
-This Todo App is a mobile application that helps people stay organized and productive. Users can create tasks, set deadlines, mark items as complete, and view their tasks in a calendar format. The app works offline, so users don't need an internet connection to manage their tasks. It features a clean, modern design with smooth animations and an easy-to-use interface.
+| Area         | Library                                                         |
+| ------------ | --------------------------------------------------------------- |
+| App          | Expo SDK 58, React Native 0.88, React 19, TypeScript 6 (strict) |
+| Navigation   | Expo Router (typed routes, protected routes)                    |
+| Data         | TanStack Query v5, axios                                        |
+| Storage      | AsyncStorage (tasks, profile), SecureStore (tokens, user id)    |
+| Forms        | Formik, Zod v4                                                  |
+| Dates        | date-fns                                                        |
+| UI           | `@expo/ui` (native sheet, menu and date picker), FlashList v2   |
+| Code quality | Biome (lint and format), TypeScript                             |
 
-**Value & Impact:**
-- Improves personal productivity and task management
-- Works offline, ensuring tasks are always accessible
-- Provides multiple ways to view and organize tasks (list view, calendar view)
-- Secure user authentication protects personal data
-- Fast and responsive user experience
+## Getting started
 
----
+### Requirements
 
-## App Demo Video
+- [Bun](https://bun.sh)
+- Node.js 22.13+, 24.3+ or 26+
+- Xcode for iOS, Android Studio for Android
 
-[Watch App Demo](https://drive.google.com/file/d/1Nz2b-2twVxJyLYgUdxTihCJC5OnyOSqQ/view)
+No environment variables are needed.
 
----
+### Install and run
 
-## Key Features
+The app uses native modules, so it runs in a [development build](https://docs.expo.dev/develop/development-builds/introduction/), **not in Expo Go**.
 
-- **User Authentication** - Secure sign-in with email/password and social login options (Google, Apple)
-- **Task Management** - Create, edit, complete, and delete tasks with title, description, date, and time
-- **Search Functionality** - Quickly find tasks by searching through titles and descriptions
-- **Calendar View** - Visual calendar interface to schedule and view tasks by date
-- **Offline Storage** - All tasks are saved locally on the device, ensuring data persistence
-- **Task Organization** - Group tasks by completion status (incomplete/completed)
-- **Modern UI** - Gradient backgrounds, smooth animations, and intuitive navigation
-
----
-
-## Tech Stack
-
-**Core:**
-- React Native 0.83.1
-- React 19.2.0
-- TypeScript 5.9.3
-
----
-
-## How It Works
-
-**High-Level Architecture:**
-
-1. **Authentication Flow**: Users sign in via email/password or social providers. The app stores authentication tokens securely and attaches them to API requests.
-
-2. **Task Storage**: Tasks are stored locally using MMKV (a fast key-value storage solution), ensuring data persists between app sessions without requiring cloud connectivity.
-
-3. **Navigation Structure**: The app uses a bottom tab navigator with four main sections:
-   - **Home**: Dashboard showing user profile, grouped tasks, and quick overview
-   - **Tasks**: Full task list with search and task creation via bottom sheet
-   - **Calendar**: Calendar view for scheduling and viewing tasks by date
-   - **Settings**: User profile and app settings
-
-4. **State Management**: React Context providers (`AuthStore`, `TodoStore`) manage global application state, making data accessible across all screens.
-
-5. **Component Architecture**: Reusable UI components (Button, Input, TaskItem, etc.) ensure consistency and maintainability.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 20
-- React Native development environment set up
-  - For Android: Android Studio, JDK, Android SDK
-  - For iOS: Xcode, CocoaPods (macOS only)
-- See [React Native Environment Setup](https://reactnative.dev/docs/set-up-your-environment) for detailed instructions
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Todo-App
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Install iOS dependencies** (iOS only)
-   ```bash
-   cd ios
-   bundle install
-   bundle exec pod install
-   cd ..
-   ```
-
-### Running the App
-
-**Start Metro bundler:**
 ```bash
-npm start
+git clone https://github.com/Varuzh21/Todo-App.git
+cd Todo-App
+bun install
 ```
 
-**Run on Android:**
+Build and run the app:
+
 ```bash
-npm run android
+bun run ios      # iOS simulator
+bun run android  # Android emulator
 ```
 
-**Run on iOS:**
+After the first build, starting the dev server is enough:
+
 ```bash
-npm run ios
+bun run start
 ```
 
-### Available Scripts
+Build again after adding or updating a package with native code.
 
-- `npm start` - Start Metro bundler
-- `npm run android` - Run on Android device/emulator
-- `npm run ios` - Run on iOS simulator/device
-- `npm test` - Run Jest tests
-- `npm run lint` - Run ESLint
+### Sign in
+
+Use any [DummyJSON test user](https://dummyjson.com/users). Sign in with the **username**, not the email.
+
+## Scripts
+
+| Command             | Description                       |
+| ------------------- | --------------------------------- |
+| `bun run start`     | Start the dev server              |
+| `bun run ios`       | Build and run on iOS              |
+| `bun run android`   | Build and run on Android          |
+| `bun run typecheck` | Check types                       |
+| `bun run check`     | Check linting and formatting      |
+| `bun run check:fix` | Fix linting and formatting issues |
+
+Install packages with `bunx expo install <package>`, so their versions match the Expo SDK.
+
+## Project structure
+
+The code follows [Feature-Sliced Design](https://feature-sliced.design). Imports only go down the list:
+
+```
+src/
+├── app/        Expo Router routes and layouts
+├── screens/    welcome, sign-in, menu, task, calendar, profile
+├── widgets/    tab bars, task list, calendar
+├── features/   auth, create-task, toggle-task, edit-profile
+├── entities/   session, task, user
+└── shared/     api, config, lib, ui, assets
+```
+
+Each slice has a public API in its `index.ts`. The architecture and conventions are described in [AGENTS.md](AGENTS.md).
+
+## How data works
+
+- **DummyJSON** is used for sign-in and to load the profile the first time.
+- **Tasks and profile edits** are saved on the device, separately for each user. They are not synced or backed up, and can be lost when the app is uninstalled.
+- **Due dates** are stored as calendar days (`yyyy-MM-dd`), so time zones never shift them.
+
+## Builds and deployment
+
+Builds and updates run on [EAS](https://docs.expo.dev/eas/). The workflows are in `.eas/workflows`:
+
+| Workflow                        | Runs on        | What it does                                                                                |
+| ------------------------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| `create-development-builds.yml` | Manual         | Creates development builds                                                                  |
+| `publish-preview-update.yml`    | Push           | Publishes an update to the branch of the same name                                          |
+| `deploy-to-production.yml`      | Push to `main` | Publishes an update when a compatible build exists, otherwise builds the app and submits it |
+
+Updates use the `fingerprint` runtime version, so they only reach builds with the same native code. iOS builds need an Apple Developer account, and store submissions need Apple and Google Play credentials.
+
+## Known limitations
+
+- Tasks can't be edited or deleted yet.
+- The profile photo can't be changed yet.
+- There are no automated tests yet.

@@ -1,4 +1,75 @@
 {
-  "name": "Todo",
-  "displayName": "Todo"
+	"expo": {
+		"name": "Todo",
+		"slug": "Todo",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./src/shared/assets/images/icon.png",
+		"scheme": "todoapp",
+		"platforms": ["ios", "android"],
+		"userInterfaceStyle": "light",
+		"ios": {
+			"icon": "./src/shared/assets/expo.icon",
+			"bundleIdentifier": "com.varuzhan23.todoapp",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#E6F4FE",
+				"foregroundImage": "./src/shared/assets/images/android-icon-foreground.png",
+				"backgroundImage": "./src/shared/assets/images/android-icon-background.png",
+				"monochromeImage": "./src/shared/assets/images/android-icon-monochrome.png"
+			},
+			"predictiveBackGestureEnabled": false,
+			"package": "com.varuzhan23.todoapp"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#208AEF",
+					"image": "./src/shared/assets/images/splash-icon.png",
+					"imageWidth": 76
+				}
+			],
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./src/shared/assets/fonts/GalanoGrotesqueAlt-Regular.ttf",
+						"./src/shared/assets/fonts/GalanoGrotesque-Medium.ttf",
+						"./src/shared/assets/fonts/GalanoGrotesqueAlt-SemiBold.ttf",
+						"./src/shared/assets/fonts/Outfit-Regular.ttf",
+						"./src/shared/assets/fonts/GTWalsheimPro-Regular.ttf",
+						"./src/shared/assets/fonts/GTWalsheimPro-Medium.ttf"
+					]
+				}
+			],
+			[
+				"expo-secure-store",
+				{
+					"configureAndroidBackup": true,
+					"faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"eas": {
+				"projectId": "61b0dae5-a8ff-4cfb-b791-143dacc11703"
+			}
+		},
+		"owner": "varuzhan23",
+		"runtimeVersion": {
+			"policy": "fingerprint"
+		},
+		"updates": {
+			"url": "https://u.expo.dev/61b0dae5-a8ff-4cfb-b791-143dacc11703"
+		}
+	}
 }
