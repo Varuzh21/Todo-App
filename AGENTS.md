@@ -102,8 +102,8 @@ Rules:
 ```
 src/app/
 ├── _layout.tsx           QueryClientProvider → SessionProvider → StatusBar(dark) → Stack
-├── (auth)/               Stack, anchor 'welcome'
-│   ├── welcome.tsx
+├── (auth)/               Stack, anchor 'index'
+│   ├── index.tsx         Welcome ("/" while signed out)
 │   └── sign-in.tsx
 └── (app)/                Tabs with custom TabBar, anchor 'index', backBehavior 'initialRoute'
     ├── index.tsx         Menu tab  ("/"): home dashboard
@@ -116,7 +116,7 @@ src/app/
 ```
 
 - Route files are **one-line re-exports** from `screens`: `export { MenuScreen as default } from '@/screens/menu';`. Every file in `src/app` must default-export a component (empty files cause warnings).
-- Auth is done with **`Stack.Protected`** in the root layout: `guard={isSignedIn}` around `(app)` (`redirectTo='/welcome'`), `guard={!isSignedIn}` around `(auth)` (`redirectTo='/'`). There is **no root `app/index.tsx` redirect** — the guards decide the first screen. Never navigate manually after sign-in/out; changing `isSignedIn` redirects.
+- Auth is done with **`Stack.Protected`** in the root layout: `guard={isSignedIn}` around `(app)`, `guard={!isSignedIn}` around `(auth)`, no `redirectTo`. Both groups have an `index.tsx` at `/`; only one group is available at a time, so `/` is the Welcome screen while signed out and the Menu tab while signed in. There is **no root `app/index.tsx` redirect** — the guards decide the first screen. Never navigate manually after sign-in/out; changing `isSignedIn` redirects.
 - Tabs with an `anchor` must use `backBehavior='initialRoute'`.
 - Custom tab bars (`widgets/tab-bar`, `widgets/top-tab-bar`): in expo-router 58 the `tabBar` props are `{ state, descriptors, emitter, navigateToTab, insets }` (no `navigation` prop). Emit `tabPress` (preventable) / `tabLongPress` through `emitter` and switch with `navigateToTab(route.key)`.
 
@@ -131,8 +131,7 @@ src/app/
 
 ## Data layer (TanStack Query)
 
-- `shared/api/query-client.ts`: `staleTime: 30_000`, `gcTime: 5 min`, no retries for 4xx (max 2 for network/5xx), mutations don't retry.
-- `shared/api/query-managers.ts` connects React Native to TanStack: `focusManager` ← `AppState`, `onlineManager` ← `expo-network`.
+- `shared/api/query-client.ts`: `staleTime: 30_000`, `gcTime: 5 min`, TanStack's default query retries (3), mutations don't retry. No `focusManager`/`onlineManager` setup, so queries don't refetch when the app returns to the foreground and TanStack treats the device as always online.
 - Each entity defines a **key factory with `queryOptions`** in `api/` (e.g. `taskQueries.all()`, `taskQueries.list()`, `userQueries.me()`). Reuse it for `useQuery`, `setQueryData`, `invalidateQueries`, `ensureQueryData`.
 - Query/mutation functions go through `api`, pass TanStack's `signal`, and **validate responses with Zod** (axios `data` is `any`).
 - **Tasks are local.** `entities/task/api/task-storage.ts` reads/writes one JSON list per user (`tasks.user-<id>`), validated with Zod on read. `taskQueries.list(userId)` and the create mutation use `networkMode: 'always'` — the default `'online'` would pause them offline. After a write, update the list with `setQueryData` (return `undefined` when the list isn't loaded). Every task mutation uses `scope: TASK_STORAGE_MUTATION_SCOPE` so read-modify-write saves run one at a time.
